@@ -4,16 +4,23 @@ jqueryhtml5
 Player HTML5 using jquery
 
 
-License <br/>
+License 
+---
 
-Compatibility <br/>
+Compatibility 
+---
 
-Dependency <br/>
+Dependency 
+---
 
-Description <br/>
+Description 
+---
 
-Features <br/>
+Features 
+---
 
-Usage <br/>
+Usage 
+---
 
-Customize Controller Bar <br/>
+Customize Controller Bar 
+---
