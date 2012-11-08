@@ -45,6 +45,21 @@ Implementation script
       });
     </script>
 
+`[options]` available are :
+
+| Option Label         | Default value        | 
+-----------------------|----------------------|
+| version              | 'SD'                 |
+| theme                | 'default-theme.html' |
+| themePath            | './themes-player-jQ/'|
+| defaultVolume        | 0.5                  |
+| fontSize             | '12pt'               |
+| displayEmptyStrMenu  | false                |
+| displayEmptyQualMenu | false                |
+|----------------------|----------------------|
+
+Here the plugin will be on every video elements with the class `my_class_selector`.<br/>
+
 Implementation HTML elements
 
     <video controls class="my_class_selector">
@@ -61,7 +76,7 @@ Implementation HTML elements
 The video class name can be named as you're up to. Here we called it "my_class_selector"
 <br/>
 ###### Source
-`<source>` elements store versions of yout video. For more compatibility, please use at least two types of video.<br/>
+`<source>` elements store versions of your video. For more compatibilities, please use at least two types of video.<br/>
 For more information about compatibilies [click here](http://en.wikipedia.org/wiki/HTML5_video "HTMLVideo").<br/>
 `Data-version` attribut is not defined, you can type what ever you want. You just need to respect the same `Data-version` for each type of each version.<br/>
 The value of `Data-version` attribut is display in the controller bar.<br/>
