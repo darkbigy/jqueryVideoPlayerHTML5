@@ -85,6 +85,13 @@ The value of `Data-version` attribut is display in the controller bar.<br/>
 If only one version is available or no `Data-version` attribut provided, nothing is display in version list.  
 
 ###### Tracks
+`<track>` elements store texts(subtitles/close captions) you want display on your video.<br/>
+`<kind>` availables are :
+* subtitles
+* captions
+* descriptions
+If no track are provided, track list is not displayed.
+
 
 Customize theme
 ---
