@@ -20,8 +20,9 @@ JQuery HTML5 required [JQuery library](http://jquery.com/ "JQuery") implemented 
 Description 
 ---
 JQuery Video Player HTML 5 is a project based on [Playr plugin](https://github.com/delphiki/Playr "Playr")
-It fully uses JQuery implementation, improves performances and add new features
-The main purpose is to easily integrate a HTML5 video player in a web site
+<br/>It fully uses JQuery implementation, improves performances and add new features
+<br/>The main purpose is to easily integrate a HTML5 video player in a web site
+
 
 Features 
 ---
@@ -34,5 +35,13 @@ Features
 Usage 
 ---
 
-Customize Controller Bar 
----
+Implementation script <br/>
+`<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="./player-html5.jQuery.min.lib.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("[my_class_selector]").jQueryVideoHTML5();
+  });
+</script>`
+
+Cust
