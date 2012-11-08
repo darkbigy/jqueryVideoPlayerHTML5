@@ -37,6 +37,7 @@ Usage
 
 Implementation script <br/>
 
+`<code>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="./player-html5.jQuery.min.lib.js"></script>
 <script type="text/javascript">
@@ -44,5 +45,6 @@ Implementation script <br/>
     $("[my_class_selector]").jQueryVideoHTML5();
   });
 </script>
+</code>`
 
 Cust
