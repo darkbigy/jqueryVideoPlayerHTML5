@@ -35,7 +35,7 @@ Features
 Usage 
 ---
 
-Implementation script
+##### Implementation script
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="./player-html5.jQuery.min.lib.js"></script>
@@ -62,7 +62,7 @@ Implementation script
 
 Here the plugin will be on every video elements with the class `my_class_selector`.<br/>
 
-Implementation HTML elements
+##### Implementation HTML elements
 
     <video controls class="my_class_selector">
       <source src="http://mywebsite/myvideo/webmVerisonSD.webm" type='video/webm'/ data-version='SD'>
@@ -91,6 +91,12 @@ If only one version is available or no `Data-version` attribut provided, nothing
 * captions
 * descriptions
 If no track are provided, track list is not displayed.
+
+##### External using
+It is possible to get only video jquery object by calling `getVideo`:
+
+    var my_video = $(".my_class_selector").jQueryVideoHTML5();
+    my_video.getVideo();
 
 
 Customize theme
@@ -150,7 +156,7 @@ Then you can move, add or delete some part based on default-theme.html.
     <li class="jqVideo5_sub">
      <button class="jqVideo5_captions_btn" tabindex="0">str</button>
      <ul class="jqVideo5_cc_tracks" >
-      <li class="jqVideo5_menu_title">Sous-titres</li>
+      <li class="jqVideo5_menu_title">Str</li>
       <li class="jqVideo5_subtitles_item" >
         <label>
           <input type="radio" value="-1" name="jqVideo5_current_cc_"/>
@@ -163,7 +169,7 @@ Then you can move, add or delete some part based on default-theme.html.
 ##### Version Menu:
 
     <li class="jqVideo5_version_list">
-     <button class="jqVideo5_version_btn"  tabindex="0" >Qualité</button>
+     <button class="jqVideo5_version_btn"  tabindex="0" >Quality</button>
      <ul class="jqVideo5_version" >
        <li class="jqVideo5_menu_title">Qualité</li>
        <li class="jqVideo5_version_item active_track" >
@@ -181,4 +187,7 @@ Then you can move, add or delete some part based on default-theme.html.
       <button class="jqVideo5_fullscreen_btn" tabindex="0"></button>
     </li>
 
-
+Screens
+---
+![fullscreen](./img/fullscreen.png)
+![normal](./img/normal.png)
