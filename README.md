@@ -95,4 +95,13 @@ If no track are provided, track list is not displayed.
 
 Customize theme
 ---
+The controller bar can be customized but it has to respect some rules.<br/>
+First of all this code has to be at the begining of your theme :
+     <div class="jqVideo5_captions_wrapper">
+        <div class="jqVideo5_video_container"></div>
+        <div class="jqVideo5_captions" ></div>
+     </div>
+     
+Then you can move, add or delete some part based on default-theme.html.
+
 
