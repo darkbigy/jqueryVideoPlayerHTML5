@@ -189,5 +189,5 @@ Then you can move, add or delete some part based on default-theme.html.
 
 Screens
 ---
-![fullscreen](./img/fullscreen.png)
-![normal](./img/normal.png)
+![fullscreen](https://github.com/darkbigy/jqueryVideoPlayerHTML5/blob/master/img/fullscreen.png)<br/>
+![normal](https://github.com/darkbigy/jqueryVideoPlayerHTML5/blob/master/img/normal.png)
