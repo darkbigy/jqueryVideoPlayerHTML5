@@ -47,16 +47,18 @@ Implementation script
 
 `[options]` available are :
 
-| Option Label         | Default value        | 
------------------------|----------------------|
-| version              | 'SD'                 |
-| theme                | 'default-theme.html' |
-| themePath            | './themes-player-jQ/'|
-| defaultVolume        | 0.5                  |
-| fontSize             | '12pt'               |
-| displayEmptyStrMenu  | false                |
-| displayEmptyQualMenu | false                |
-|----------------------|----------------------|
+| Option Label         | Default value        | Description                                                          |
+-----------------------|----------------------|----------------------------------------------------------------------|
+| version              | 'SD'                 | Forced version                                                       |
+| theme                | 'default-theme.html' | Name of the default theme (must be HTML file)                        |
+| themePath            | './themes-player-jQ/'| Path where the theme is stored                                       |
+| defaultVolume        | 0.5                  | Default volume when the player is load                               |
+| fontSize             | '12pt'               | Default size of str or captions                                      |
+| displayEmptyStrMenu  | false                | Do you want display the str/cc button if no tracks are found         |
+| displayEmptyQualMenu | false                | Do you want display the str/cc button if no multi versions are found |
+
+`[options]` using is :
+`$(".my_class_selector").jQueryVideoHTML5({'theme' : 'my-custom-theme.html', 'displayEmptyStrMenu' : true});`
 
 Here the plugin will be on every video elements with the class `my_class_selector`.<br/>
 
@@ -83,4 +85,7 @@ The value of `Data-version` attribut is display in the controller bar.<br/>
 If only one version is available or no `Data-version` attribut provided, nothing is display in version list.  
 
 ###### Tracks
+
+Customize theme
+---
 
