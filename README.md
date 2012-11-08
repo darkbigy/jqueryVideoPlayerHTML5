@@ -65,14 +65,14 @@ Here the plugin will be on every video elements with the class `my_class_selecto
 ##### Implementation HTML elements
 
     <video controls class="my_class_selector">
-      <source src="http://mywebsite/myvideo/webmVerisonSD.webm" type='video/webm'/ data-version='SD'>
-      <source src="http://mywebsite/myvideo/webmVerisonSD.ogv" type='video/ogg'/ data-version='SD'>
-      <source src="http://mywebsite/myvideo/webmVerisonSD.mp4" type='video/mp4'/ data-version='SD'>
-      <source src="http://mywebsite/myvideo/webmVerisonHD.ogv" type='video/ogg'/ data-version='HD'>
-      <source src="http://mywebsite/myvideo/webmVerisonSD.webm" type='video/webm'/ data-version='HD'>
-      <source src="http://mywebsite/myvideo/webmVerisonHD.mp4" type='video/mp4'/ data-version='HD'>
-      <track kind="subtitles" label="English" srclang="en" src="sub.srt" />
-      <track kind="subtitles" label="Francais" srclang="fr" src="sub.srt" />
+      <source src="http://mywebsite/myvideo/webmVerisonSD.webm" type='video/webm' data-version='SD'/>
+      <source src="http://mywebsite/myvideo/webmVerisonSD.ogv" type='video/ogg' data-version='SD'/>
+      <source src="http://mywebsite/myvideo/webmVerisonSD.mp4" type='video/mp4' data-version='SD'/>
+      <source src="http://mywebsite/myvideo/webmVerisonHD.ogv" type='video/ogg' data-version='HD'/>
+      <source src="http://mywebsite/myvideo/webmVerisonSD.webm" type='video/webm' data-version='HD'/>
+      <source src="http://mywebsite/myvideo/webmVerisonHD.mp4" type='video/mp4' data-version='HD'/>
+      <track kind="subtitles" label="English" srclang="en" src="sub_en.srt" />
+      <track kind="subtitles" label="Francais" srclang="fr" src="sub_fr.srt" />
     </video>
 
 The video class name can be named as you're up to. Here we called it "my_class_selector"
@@ -108,7 +108,7 @@ First of all this code has to be at the begining of your theme :
        <div class="jqVideo5_video_container"></div>
        <div class="jqVideo5_captions" ></div>
     </div>
-    <ul class="jqVideo5_controls"  role="menubar">
+    <ul class="jqVideo5_controls" role="menubar">
       // Your controller here
     </ul>
      
@@ -117,7 +117,7 @@ Then you can move, add or delete some part based on default-theme.html.
 ###### Play controller :
 
     <li>
-     <button class="jqVideo5_play_btn "  tabindex="0"></button>
+     <button class="jqVideo5_play_btn"  tabindex="0"></button>
     </li>
 
 ###### Time Bar controller :    
