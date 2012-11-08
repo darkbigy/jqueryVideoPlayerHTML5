@@ -37,12 +37,12 @@ Usage
 
 Implementation script <br/>
 
-`<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<code><script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="./player-html5.jQuery.min.lib.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
     $("[my_class_selector]").jQueryVideoHTML5();
   });
-</script>`
+</script></code>
 
 Cust
