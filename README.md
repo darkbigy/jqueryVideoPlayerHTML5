@@ -92,13 +92,6 @@ If only one version is available or no `Data-version` attribut provided, nothing
 * descriptions
 If no track are provided, track list is not displayed.
 
-##### External using
-It is possible to get only video jquery object by calling `getVideo`:
-
-    var my_video = $(".my_class_selector").jQueryVideoHTML5();
-    my_video.getVideo();
-
-
 Customize theme
 ---
 The controller bar can be customized but it has to respect some rules.<br/>
