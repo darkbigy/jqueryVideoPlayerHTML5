@@ -48,15 +48,18 @@ Usage
 
 `[options]` available are :
 
-| Option Label         | Default value        | Description                                                          |
------------------------|----------------------|----------------------------------------------------------------------|
-| version              | 'SD'                 | Forced version                                                       |
-| theme                | 'default-theme.html' | Name of the default theme (must be HTML file)                        |
-| themePath            | './themes-player-jQ/'| Path where the theme is stored                                       |
-| defaultVolume        | 0.5                  | Default volume when the player is load                               |
-| fontSize             | '12pt'               | Default size of str or captions                                      |
-| displayEmptyStrMenu  | false                | Do you want display the str/cc button if no tracks are found         |
-| displayEmptyQualMenu | false                | Do you want display the str/cc button if no multi versions are found |
+| Option Label         | Default value        | Description                                                            |
+-----------------------|----------------------|------------------------------------------------------------------------|
+| version              | 'SD'                 | Forced version                                                         |
+| theme                | 'default-theme.html' | Name of the default theme (must be HTML file)                          |
+| themePath            | './themes-player-jQ/'| Path where the theme is stored                                         |
+| defaultVolume        | 0.5                  | Default volume when the player is load                                 |
+| fontSize             | '12pt'               | Default size of str or captions                                        |
+| displayEmptyStrMenu  | false                | Do you want display the str/cc button if no tracks are found           |
+| displayEmptyQualMenu | false                | Do you want display the str/cc button if no multi versions are found   |
+| skipStep             | 5					  | Time rewinded/forwaded when keyboard key pressed (keyboard keys bellow)|
+| volumeStep		   | 0.1				  | Volume up/down when keyboard key pressed (keyboard keys below)         |
+| activeKeyboard	   | true			      | Activate/Desactivate keyboard keys									   |	
 
 `[options]` using is :
 `$(".my_class_selector").jQueryVideoHTML5({'theme' : 'my-custom-theme.html', 'displayEmptyStrMenu' : true});`
