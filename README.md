@@ -41,7 +41,7 @@ Usage
     <script type="text/javascript" src="./player-html5.jQuery.min.lib.js"></script>
     <script type="text/javascript">
       $(document).ready(function() { 
-        $(".my_class_selector").jQueryVideoHTML5([options]);
+        $([my_selector]).jQueryVideoHTML5([options]);
       });
     </script>
 
@@ -91,6 +91,13 @@ If only one version is available or no `Data-version` attribut provided, nothing
 * captions
 * descriptions
 If no track are provided, track list is not displayed.
+
+##### Using public function
+
+| function name        | parameters     	  | Using	                                                                       | Description                                           |
+-----------------------|----------------------|--------------------------------------------------------------------------------|-------------------------------------------------------|
+| parseTimeCode        | time in sec (int)    | `var myVideo = $([my_selector]).jQueryVideoHTML5(); myVideo.parseTimeCode(42);`| Get a time in seconds and return a time formated mm:ss|
+
 
 Customize theme
 ---

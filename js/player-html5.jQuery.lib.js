@@ -3,7 +3,8 @@
  *
  * @author Adrian 'didi' Zambaux <adrianzambaux@gmail.com>
  * @description This plugin load tools useful for HTML5 video elements.
- * Inspired by Playr plugin (Julien 'delphiki' Villetorte <gdelphiki@gmail.com>)  
+ * Inspired by Playr plugin (Julien 'delphiki' Villetorte <gdelphiki@gmail.com>)
+ * @copyright GNU GPLs
  * @version 1.0 07/11/2012
  */
 
@@ -17,15 +18,40 @@
     {
       'version'            : 'SD',     
       'theme'              : 'default-theme.html',
-      'themePath'          : 'http://localhost/plugin%20JQuery//themes-player-jQ/',
+      'themePath'          : './themes-player-jQ/',
       'defaultVolume'      : 0.5,
       'fontSize'           : '12pt',
       'displayEmptyStrMenu'  :  false,
       'displayEmptyQualMenu' :  false
     }, options);
     
-    var nb_video = 0; 
+    var nb_video = 0;
+    var plugin = this; 
 
+	/**
+       *  @description Parse Timecode in sec and minute   
+       */
+      this.parseTimeCode = function(nb_sec)
+      {
+        nb_sec = Math.floor(nb_sec);
+        var nb_min = 0;
+        while(nb_sec - 60  > 0)
+        {
+          nb_sec = nb_sec - 60;
+          nb_min++;
+        }
+        var sec = nb_sec.toString();
+        if(sec.length==1)
+        {
+          sec = '0'+sec;
+        }
+        var min = nb_min.toString();
+        if(min.length==1)
+        {
+          min = '0'+min;
+        }	
+        return min+':'+sec;
+      };
     // Content of the plugin 
     return this.each(function(){   
 
@@ -43,16 +69,7 @@
       'current_track'       : -1,
       'subs'                : []  
       });
-    
-      /**
-       *  @description Get the JQuery element Video
-       *  @return Jquery Video element     
-       */           
-      this.getVideo = function()
-      {
-        return params.video;
-      };
-      
+          
        /**
        *  @description First methode called. Init video controller from a 
        *  template file set in settings.theme and settings.themePath           
@@ -803,7 +820,7 @@
         {
           curTime = 0;
         }
-        notice.html(parseTimeCode(Math.round(curTime * params.video[0].duration / 100)));
+        notice.html(plugin.parseTimeCode(Math.round(curTime * params.video[0].duration / 100)));
         notice.css('marginLeft', (diffx + 3 - notice[0].offsetWidth / 2)+'px');
       };
       
@@ -870,40 +887,15 @@
       {                                 
         $('.jqVideo5_timebar', params.parent_container).attr('aria-valuemax', Math.round(params.video[0].duration * 100) / 100);
         $('.jqVideo5_timebar', params.parent_container).attr('aria-valuenow', params.video[0].currentTime); 
-        $('.jqVideo5_video_curpos', params.parent_container).html(parseTimeCode(params.video[0].currentTime));
-        if ($('.jqVideo5_video_duration', params.parent_container).html() == '00:00' || parseTimeCode(params.video[0].duration != $('.jqVideo5_video_duration', params.parent_container).html()))
+        $('.jqVideo5_video_curpos', params.parent_container).html(plugin.parseTimeCode(params.video[0].currentTime));
+        if ($('.jqVideo5_video_duration', params.parent_container).html() == '00:00' || plugin.parseTimeCode(params.video[0].duration != $('.jqVideo5_video_duration', params.parent_container).html()))
         {
-          $('.jqVideo5_video_duration', params.parent_container).html(parseTimeCode(params.video[0].duration));
+          $('.jqVideo5_video_duration', params.parent_container).html(plugin.parseTimeCode(params.video[0].duration));
         }        
   			if(!params.isHoldingTime)
         {
           $('.jqVideo5_timebar_inner', params.parent_container).css('width', params.video[0].currentTime * 100 / params.video[0].duration + '%');
         }
-      };
-
-      /**
-       *  @description Parse Timecode in sec and minute   
-       */
-      var parseTimeCode = function(nb_sec)
-      {
-        nb_sec = Math.floor(nb_sec);
-        var nb_min = 0;
-        while(nb_sec - 60  > 0)
-        {
-          nb_sec = nb_sec - 60;
-          nb_min++;
-        }
-        var sec = nb_sec.toString();
-        if(sec.length==1)
-        {
-          sec = '0'+sec;
-        }
-        var min = nb_min.toString();
-        if(min.length==1)
-        {
-          min = '0'+min;
-        }	
-        return min+':'+sec;
       };
   
        /**
@@ -922,7 +914,8 @@
       };
       
      // constructor  
-      init();
+     init();
+     return $(this);
   }); 
   
 }})(jQuery);
