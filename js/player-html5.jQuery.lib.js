@@ -76,7 +76,8 @@
       'parent_container'    : null,
       'id_video'            : ++nb_video,
       'current_track'       : -1,
-      'subs'                : []  
+      'subs'                : [],
+      'mouseHoverPlayer'	: false  
       });
           
        /**
@@ -156,7 +157,6 @@
       
       var keyPressed = function(event)
       {
-      	console.log(settings);
       	if (settings.activeKeyboard)
       	{
       		switch(event.keyCode)
@@ -515,14 +515,19 @@
      {
       	var captions_div = $('.jqVideo5_captions', params.parent_container);
         var jqVideo5_cc_choices = $('input', $('.jqVideo5_cc_tracks', params.parent_container));
+        var current_track = -1;
       	for (var i=0; i < jqVideo5_cc_choices.length; i++)
       	{
 			   if($(jqVideo5_cc_choices[i]).prop('checked'))
 			   {
 				  current_track = $(jqVideo5_cc_choices[i]).val();
 			   }
-		    }
-     	  if (current_track >= 0)
+		}
+		if (current_track == -1 && captions_div.css('visibility') == 'visible')
+		{
+			captions_div.hide();
+		}
+     	else
         {
           for(i = 0; i < params.subs[current_track].length; i++)
           {
@@ -772,6 +777,7 @@
        */
       var mouseHoverPlayer = function(isHover)
       {
+      	params.mouseHoverPlayer = isHover;
         if (!params.video[0].paused)
         {
           if (isHover)
@@ -783,7 +789,8 @@
             $('.jqVideo5_controls', params.parent_container).css('opacity', 0);
           }
         }	
-      };      
+      };
+           
 
       /**
        *  @description Set the volume when user move the slider or volume is
@@ -975,9 +982,14 @@
         if (params.video[0].paused)
         {
           params.video[0].play();
+          if (!params.mouseHoverPlayer)
+          {
+          	$('.jqVideo5_controls', params.parent_container).css('opacity', 0);	
+          }
         }
         else
         {
+          $('.jqVideo5_controls', params.parent_container).css('opacity', 1);	
           params.video[0].pause();
         }
       };

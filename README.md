@@ -4,6 +4,8 @@ jqueryhtml5
 Player HTML5 using jquery
 
 
+EDIT: Mutli-themes are comming soon
+
 License 
 ---
 GNU GPL
