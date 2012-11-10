@@ -94,9 +94,11 @@ If no track are provided, track list is not displayed.
 
 ##### Using public function
 
-| function name        | parameters     	  | Using	                                                                       | Description                                           |
------------------------|----------------------|--------------------------------------------------------------------------------|-------------------------------------------------------|
-| parseTimeCode        | time in sec (int)    | `var myVideo = $([my_selector]).jQueryVideoHTML5(); myVideo.parseTimeCode(42);`| Get a time in seconds and return a time formated mm:ss|
+| function name        | parameters     	  | Using	                                            | Description                                           |
+|----------------------|----------------------|-----------------------------------------------------|-------------------------------------------------------|
+| parseTimeCode        | time in sec (int)    | var myVideo = $([my_selector]).jQueryVideoHTML5();  | Get a time in seconds and return a time formated mm:ss|
+|					   |					  | myVideo.parseTimeCode(42);                          |                                                       |
+|----------------------|----------------------|-----------------------------------------------------|-------------------------------------------------------|               
 
 
 Customize theme
