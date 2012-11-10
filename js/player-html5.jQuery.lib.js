@@ -22,13 +22,16 @@
       'defaultVolume'      : 0.5,
       'fontSize'           : '12pt',
       'displayEmptyStrMenu'  :  false,
-      'displayEmptyQualMenu' :  false
+      'displayEmptyQualMenu' :  false,
+      'skipStep'			 : 5,
+      'volumeStep'			 : 0.1,
+      'activeKeyboard'		 : true	
     }, options);
     
     var nb_video = 0;
     var plugin = this; 
 
-	/**
+	   /**
        *  @description Parse Timecode in sec and minute   
        */
       this.parseTimeCode = function(nb_sec)
@@ -52,6 +55,12 @@
         }	
         return min+':'+sec;
       };
+      
+      this.activateKeyboard = function(activate)
+      {
+       	settings.activeKeyboard = activate;
+      };
+      
     // Content of the plugin 
     return this.each(function(){   
 
@@ -139,7 +148,67 @@
         $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();});      
         
         //mouse event
-        $('.jqVideo5_wrapper').hover(function(){mouseHoverPlayer(true);}, function(){mouseHoverPlayer(false);});  
+        $('.jqVideo5_wrapper').hover(function(){mouseHoverPlayer(true);}, function(){mouseHoverPlayer(false);});
+        
+        //Key Event
+        $(document).on('keydown', function(event){keyPressed(event)});
+      };
+      
+      var keyPressed = function(event)
+      {
+      	console.log(settings);
+      	if (settings.activeKeyboard)
+      	{
+      		switch(event.keyCode)
+      		{
+      		case 32: // space bar
+      			play();
+      		break;
+      		case 37: // arrow left
+      			if (params.video[0].currentTime - settings.skipStep < 0)
+      			{
+      				params.video[0].currentTime = 0;
+      			}
+      			else
+      			{
+      				params.video[0].currentTime -= settings.skipStep;
+      			}
+      		break;
+      		case 38: // arrow up
+      			if (params.video[0].volume + settings.volumeStep > 1)
+      			{
+      				params.video[0].volume = 1;
+      			}
+      			else
+      			{
+      				params.video[0].volume += settings.volumeStep;
+      			}
+      			setVolume(false, null);
+      		break;
+      		case 39: // arrow right
+      			if (params.video[0].currentTime + settings.skipStep > params.video[0].duration)
+      			{
+      				params.video[0].currentTime = params.video[0].duration;
+      			}
+      			else
+      			{
+      				params.video[0].currentTime += settings.skipStep;
+      			}
+      		break;
+      		case 40: // arrow down
+      			if (params.video[0].volume - settings.volumeStep < 0)
+      			{
+      				params.video[0].volume = 0;
+      			}
+      			else
+      			{
+      				params.video[0].volume -= settings.volumeStep;
+      			}
+      			setVolume(false, null);
+      		break;
+      		}
+      	event.preventDefault();	
+      	}
       };
 
       /**

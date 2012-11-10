@@ -31,6 +31,7 @@ Features
 * Customizable controller bar
 * Multi version (HD, SD, 16:9, 4:3, ...) of a same video
 * True fullscreen (Mozilla & WebKit)
+* Keyboard keys
 
 Usage 
 ---
@@ -94,9 +95,21 @@ If no track are provided, track list is not displayed.
 
 ##### Using public function
 
-| function name        | parameters     	  | Using	                                          | Description                                           |
------------------------|----------------------|---------------------------------------------------|-------------------------------------------------------|
-| parseTimeCode        | time in sec (int)    | var myVideo = $([my_selector]).jQueryVideoHTML5();<br/>myVideo.parseTimeCode(42);| Get a time in seconds and return a time formated mm:ss|
+| function name        | parameters     	  | Using	                       | Description                                           |
+-----------------------|----------------------|--------------------------------|-------------------------------------------------------|
+| parseTimeCode        | time in sec (int)    | myVideo.parseTimeCode(42);     | Get a time in seconds and return a time formated mm:ss|
+| activateKeyboard	   | activate (boolean)	  | myVideo.activateKeyboard(true);| Activate/desactivate keyboard key					   |
+
+##### Keyboard Keys
+
+| key       | action	 |
+------------|------------|
+| <button>↑</button> | Volume up  |
+| <button>↓</button> | Volume down|
+| <button>←</button>| Rewind     |
+| <button>→</button>| forward     |
+| <button>Space</button>| Play/Pause |
+ 
 
 
 Customize theme
