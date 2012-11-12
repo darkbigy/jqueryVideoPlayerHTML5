@@ -317,18 +317,20 @@
       {
         var version_li = $('li.jqVideo5_version_item', params.parent_container);
         var version_inputs = $('input', $('.jqVideo5_version', params.parent_container));
+        var to_load = 0;
         for(i = 0; i < version_inputs.length; ++i)
         {
           if($(version_inputs[i]).prop('checked'))
-          {
+          { 
             $(version_li[i]).attr('class', 'jqVideo5_version_item active_track');
-            changeActiveVideo($(version_inputs[i]).val());
+            to_load = i;
           }
           else
           {
             $(version_li[i]).attr('class', 'jqVideo5_version_item');
           }
         }
+        changeActiveVideo($(version_inputs[to_load]).val());
       };
       
       /**
