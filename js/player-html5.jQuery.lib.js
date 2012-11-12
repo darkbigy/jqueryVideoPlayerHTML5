@@ -25,11 +25,14 @@
       'displayEmptyQualMenu' :  false,
       'skipStep'			 : 5,
       'volumeStep'			 : 0.1,
-      'activeKeyboard'		 : true	
+      'activeKeyboard'		 : true,
+      'isFullScreenOnPlay' : false,
+      'displayControllerOnlyFullScreen' : false	
     }, options);
     
     var nb_video = 0;
-    var plugin = this; 
+    var plugin = this;
+    var stop_timeout = false; 
 
 	   /**
        *  @description Parse Timecode in sec and minute   
@@ -61,6 +64,7 @@
        	settings.activeKeyboard = activate;
       };
       
+      
     // Content of the plugin 
     return this.each(function(){   
 
@@ -75,7 +79,6 @@
       'video'               : $(this),
       'parent_container'    : null,
       'id_video'            : ++nb_video,
-      'current_track'       : -1,
       'subs'                : [],
       'mouseHoverPlayer'	: false  
       });
@@ -105,6 +108,8 @@
               params.video[0].volume = settings.defaultVolume;
               setVolume(false, null);
               timeCode();
+              
+              displayController(!settings.displayControllerOnlyFullScreen);
             },
             error: function (data) {
               alert(data);
@@ -128,33 +133,69 @@
         params.video.on('loadstart', function(){timeCode();});
         
         // play event
-        $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play()});
+        $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();$(this).blur();});
         
         // timebar events
-        $('.jqVideo5_timebar', params.parent_container).on('mousedown', function(){params.isHoldingTime = true;});
-        $('.jqVideo5_timebar', params.parent_container).on('mouseup', function(event){params.isHoldingTime = false; setPositionTimeBar(event, true);});
-        ($('.jqVideo5_timebar', params.parent_container).parent()).on('mousemove', function(event){noticeTimecode(event); if (params.isHoldingTime){setPositionTimeBar(event, false);}});
+        $('.jqVideo5_timebar', params.parent_container).mousedown(function(){params.isHoldingTime = true;});
+        $('.jqVideo5_timebar', params.parent_container).mouseup(function(event){params.isHoldingTime = false; setPositionTimeBar(event, true);});
+        ($('.jqVideo5_timebar', params.parent_container).parent()).mousemove(function(event){noticeTimecode(event); if (params.isHoldingTime){setPositionTimeBar(event, false);}});
         
         // fullscreen click
-        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();});
+        $('.jqVideo5_fullscreen_btn', params.parent_container).click(function(){fullScreen();$(this).blur();});
         
         // true fullscreen
         $(document).on('mozfullscreenchange', function(){if(!$(document)[0].mozFullScreen && params.isTrueFullscreen){fullScreen();}});
         $(document).on('webkitfullscreenchange', function(){if(!$(document)[0].webkitIsFullScreen && params.isTrueFullscreen){fullScreen();}});
         
         // volume control events
-        $('.jqVideo5_volumebar', params.parent_container).on('mousedown', function(){params.isHoldingVolume = true;});
-        $('.jqVideo5_volumebar', params.parent_container).on('mouseup', function(event){params.isHoldingVolume = false; setVolume(true, event);});
-        $('.jqVideo5_volumebar', params.parent_container).on('mousemove', function(event){if(params.isHoldingVolume){setVolume(true, event)}});
-        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();});      
+        $('.jqVideo5_volumebar', params.parent_container).mousedown(function(){params.isHoldingVolume = true;});
+        $('.jqVideo5_volumebar', params.parent_container).mouseup(function(event){params.isHoldingVolume = false; setVolume(true, event);});
+        $('.jqVideo5_volumebar', params.parent_container).mousemove(function(event){if(params.isHoldingVolume){setVolume(true, event)}});
+        $('.jqVideo5_sound_btn', params.parent_container).click(function(){toggleMute();$(this).blur();});      
         
         //mouse event
-        $('.jqVideo5_wrapper').hover(function(){mouseHoverPlayer(true);}, function(){mouseHoverPlayer(false);});
+        params.parent_container.hover(function(){params.mouseHoverPlayer = true;}, function(){params.mouseHoverPlayer = false;if(!params.video[0].paused){showController(false);}});
+        params.parent_container.mousemove(function(){mouseMoveHoverPlayer();});
         
         //Key Event
         $(document).on('keydown', function(event){keyPressed(event)});
       };
       
+      /**
+       *  Display or not the controller
+       */             
+      var displayController = function(displayed)
+      {
+        if (displayed)
+        {
+          $('.jqVideo5_controls', params.parent_container).show();
+        }
+        else
+        {
+          $('.jqVideo5_controls', params.parent_container).hide();
+        }
+      }
+      
+       /**
+       *  Hide or not the controller
+       */
+      var showController = function(showed)
+      {
+        if (showed)
+        {
+          params.parent_container.css('cursor', 'auto');
+          $('.jqVideo5_controls', params.parent_container).css('opacity', 1);
+        }
+        else
+        {
+          params.parent_container.css('cursor', 'none');
+          $('.jqVideo5_controls', params.parent_container).css('opacity', 0);
+        }
+      };
+      
+      /**
+       * check key pressed and assigns an action
+       */             
       var keyPressed = function(event)
       {
       	if (settings.activeKeyboard)
@@ -444,8 +485,13 @@
         var track_inputs = $('input', $('.jqVideo5_cc_tracks', params.parent_container));
         for(i = 0; i < track_inputs.length; ++i)
         {
+          //$('.jqVideo5_sub', params.parent_container).css('display', 'none');
           if($(track_inputs[i]).prop('checked'))
           {
+            if (i == 0)
+            {
+               $('.jqVideo5_captions', params.parent_container).hide();
+            }
             $(track_li[i]).attr('class', 'jqVideo5_subtitles_item active_track');
           }
           else
@@ -522,13 +568,9 @@
 			   {
 				  current_track = $(jqVideo5_cc_choices[i]).val();
 			   }
-		}
-		if (current_track == -1 && captions_div.css('visibility') == 'visible')
-		{
-			captions_div.hide();
-		}
-     	else
-        {
+	    	}
+         if (current_track > -1)
+         {
           for(i = 0; i < params.subs[current_track].length; i++)
           {
             if(params.video[0].currentTime >= params.subs[current_track][i].start 
@@ -687,8 +729,8 @@
 						captions_div.html(paragraph_caption.append(captions_lines_styles.append(text)));
 				}
 			}
-		}
-  };
+    }
+  }; 
       /**
        *  @description Method called when fullscreen button is clicked    
        */
@@ -699,6 +741,7 @@
   		  var captions = $('.jqVideo5_captions', wrapper);
         if(!params.isFullscreen)
         {
+           displayController(true);
   			   for(i = 0; i < vids.length; ++i)
            {
               vids.css('visibility', 'hidden');
@@ -741,6 +784,12 @@
   		  }
   		  else
   		  {
+           if (settings.isFullScreenOnPlay && !params.video[0].paused)
+           {
+               play();
+           }
+           displayController(!settings.displayControllerOnlyFullScreen);
+           $('body').css('cursor', 'auto');
   			   if ($(document)[0].cancelFullscreen)
   			   {
   			     $(document)[0].cancelFullscreen();
@@ -775,22 +824,22 @@
        /**
        *  @description Action when the mouse is hover the video Player or not            
        */
-      var mouseHoverPlayer = function(isHover)
+      var mouseMoveHoverPlayer = function()
       {
-      	params.mouseHoverPlayer = isHover;
-        if (!params.video[0].paused)
+        if (!params.video[0].paused && params.mouseHoverPlayer)
         {
-          if (isHover)
-          {
-            $('.jqVideo5_controls', params.parent_container).css('opacity', 1);	
-          }
-          else
-          {
-            $('.jqVideo5_controls', params.parent_container).css('opacity', 0);
-          }
-        }	
+            setTimeOutFadeOut();
+        }
       };
-           
+      
+      var setTimeOutFadeOut = function()
+      {
+          showController(true);
+          clearTimeout(stop_timeout);
+          stop_timeout = setTimeout(function() {
+            showController(false);
+          }, 3000);
+      };    
 
       /**
        *  @description Set the volume when user move the slider or volume is
@@ -953,7 +1002,7 @@
         params.video[0].currentTime = 0;
         params.video[0].pause();
         $('.jqVideo5_play_btn').toggleClass('pause');
-        $('.jqVideo5_controls', params.parent_container).css('opacity', 1);
+        showController(true);
       };
 
       /**
@@ -982,15 +1031,18 @@
         if (params.video[0].paused)
         {
           params.video[0].play();
-          if (!params.mouseHoverPlayer)
+          showController(params.mouseHoverPlayer);
+          setTimeOutFadeOut();
+          if (settings.isFullScreenOnPlay && !params.isFullscreen)
           {
-          	$('.jqVideo5_controls', params.parent_container).css('opacity', 0);	
+            fullScreen();
           }
         }
         else
         {
-          $('.jqVideo5_controls', params.parent_container).css('opacity', 1);	
           params.video[0].pause();
+          showController(true);
+          clearTimeout(stop_timeout);
         }
       };
       
