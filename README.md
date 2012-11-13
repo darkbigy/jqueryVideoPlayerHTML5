@@ -115,8 +115,9 @@ If no track are provided, track list is not displayed.
 | <button>↑</button> | Volume up  |
 | <button>↓</button> | Volume down|
 | <button>←</button>| Rewind     |
-| <button>→</button>| forward     |
+| <button>→</button>| Forward     |
 | <button>Space</button>| Play/Pause |
+| <button>Alt</button>+ <button>Enter</button>| FullScreen
  
 
 

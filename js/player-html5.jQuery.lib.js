@@ -204,10 +204,16 @@
        */             
       var keyPressed = function(event)
       {
-      	if (settings.activeKeyboard)
+      	if (settings.activeKeyboard && event.type == 'keydown')
       	{
       		switch(event.keyCode)
       		{
+          case 13: // enter
+            if (event.altKey)
+            {
+              fullScreen();
+            }
+          break;
       		case 32: // space bar
       			play();
       		break;
@@ -254,7 +260,6 @@
       			setVolume(false, null);
       		break;
       		}
-      	event.preventDefault();	
       	}
       };
 
