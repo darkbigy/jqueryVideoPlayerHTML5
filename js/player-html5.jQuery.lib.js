@@ -28,7 +28,7 @@
       'activeKeyboard'		 : true,
       'isFullScreenOnPlay' : false,
       'displayControllerOnlyFullScreen' : false,
-      'activateContextualMenu'  : false	
+      'activateContextualMenu'  : true	
     }, options);
     
     var nb_video = 0;
