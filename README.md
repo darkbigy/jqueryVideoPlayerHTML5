@@ -63,7 +63,8 @@ Usage
 | volumeStep		   | 0.1				  | Volume up/down when keyboard key pressed (keyboard keys below)         |
 | activeKeyboard	   | true			      | Activate/Desactivate keyboard keys									   |
 | isFullScreenOnPlay   | false                | `true` value : Force fullscreen when video is playing / stop when not in fullscreen|
-| displayControllerOnlyFullScreen | false | `true` value : Display controller only in fullScreen State. Click to play available|	
+| displayControllerOnlyFullScreen | false | `true` value : Display controller only in fullScreen State. Click to play available|
+| activateContextualMenu | true | Activate/Desactivate contextual menu on the video|	
 
 `[options]` using is :
 `$(".my_class_selector").jQueryVideoHTML5({'theme' : 'my-custom-theme.html', 'displayEmptyStrMenu' : true});`

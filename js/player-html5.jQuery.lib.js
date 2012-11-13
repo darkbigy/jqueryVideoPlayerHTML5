@@ -27,7 +27,8 @@
       'volumeStep'			 : 0.1,
       'activeKeyboard'		 : true,
       'isFullScreenOnPlay' : false,
-      'displayControllerOnlyFullScreen' : false	
+      'displayControllerOnlyFullScreen' : false,
+      'activateContextualMenu'  : false	
     }, options);
     
     var nb_video = 0;
@@ -108,8 +109,13 @@
               params.video[0].volume = settings.defaultVolume;
               setVolume(false, null);
               timeCode();
-              
               displayController(!settings.displayControllerOnlyFullScreen);
+              if (!settings.activateContextualMenu)
+              {
+                video.bind("contextmenu",function(){
+                  return false;
+                });
+              }
             },
             error: function (data) {
               alert(data);
