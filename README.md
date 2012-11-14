@@ -247,5 +247,6 @@ In order to add an action to your own button add a class to `button_contex` clas
         $('.button_contex.custom_1').click(function(){ //Do something};    
       });
     </script>
+    
 For this button `<div class="button_contex custom_1"></div>`
          
