@@ -137,27 +137,27 @@
             $('.button_contex.play').click(function(){play();$(this).blur();});
             $('.button_contex.fullscreen').click(function(){fullScreen();$(this).blur();});
             $('.button_contex.sound').click(function(){toggleMute();$(this).blur();});
-            video.bind('contextmenu', function(event)
+            params.video.bind('contextmenu', function(event)
             {
               $('.jqVideo5_context_menu').hover(function(){}, function(){$('.jqVideo5_context_menu').hide();});
               var halfMenu = ($('.jqVideo5_context_menu').width()/2);
               var menuX = event.pageX - halfMenu;
               var menuY = event.pageY - halfMenu;
-              if (menuX < video.offset().left)
+              if (menuX < params.video.offset().left)
               {
-                menuX = video.offset().left;
+                menuX = params.video.offset().left;
               }
-              else if (menuX + (halfMenu*2) > video.offset().left + video.width())
+              else if (menuX + (halfMenu*2) > params.video.offset().left + params.video.width())
               {
-                menuX = (video.offset().left + video.width()) - halfMenu * 2;
+                menuX = (params.video.offset().left + params.video.width()) - halfMenu * 2;
               }
-              if (menuY < video.offset().top)
+              if (menuY < params.video.offset().top)
               {
-                menuY = video.offset().top;
+                menuY = params.video.offset().top;
               }
-              else if (menuY + (halfMenu*2) > video.offset().top + video.height())
+              else if (menuY + (halfMenu*2) > params.video.offset().top + params.video.height())
               {
-                menuY = (video.offset().top + video.height() - (halfMenu*2));
+                menuY = (params.video.offset().top + params.video.height() - (halfMenu*2));
               }
               var buttonContex = $('.button_contex');
               buttonContex.css('left', (($('.jqVideo5_context_menu').width() - buttonContex.width()) / 2))
@@ -261,6 +261,7 @@
         else
         {
           params.parent_container.css('cursor', 'none');
+          $('.jqVideo5_context_menu').hide();
           $('.jqVideo5_controls', params.parent_container).css('opacity', 0);
         }
       };
@@ -815,6 +816,10 @@
        */
       var fullScreen = function()
       {
+        if(settings.activateContextualCustomMenu)
+        {
+          $('.jqVideo5_context_menu').hide();
+        }
       	var vids = $('.jqVideo5_wrapper');
       	var wrapper = params.parent_container;
   		  var captions = $('.jqVideo5_captions', wrapper);
