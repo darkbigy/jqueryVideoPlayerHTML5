@@ -10,7 +10,7 @@
 	font-family:'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
 	display:inline-block;
 	font-size:12pt;
-    z-index: 3;
+  z-index: 0;
 }
 
 .jqVideo5_wrapper, .jqVideo5_wrapper *{
@@ -157,12 +157,11 @@
 	padding-right:10px;
 }
 
-.jqVideo5_controls a, .jqVideo5_controls button{
+.jqVideo5_controls button{
 	background-color:transparent;
 	border:none;
 	color:#fff;
 	cursor:pointer;
-	opacity:0.5;
   position:relative;
 	top:-4px;
 	-o-transition:opacity .3s ease;
@@ -175,42 +174,72 @@
 {
   width: 16px;
   height: 16px;
-  background-image: url(../img/playIcon.png);
+  background: url(../img/spritecontroller.png) 0 0;
+}
+
+.jqVideo5_play_btn:hover
+{
+  background: url(../img/spritecontroller.png) 0 -16px;
 }
 
 .jqVideo5_play_btn.pause
 {
-  background-image: url(../img/pauseIcon.png);
+  width: 16px;
+  height: 16px;
+  background: url(../img/spritecontroller.png) -16px 0;
+}
+
+.jqVideo5_play_btn.pause:hover
+{
+  background: url(../img/spritecontroller.png) -16px -16px;
 }
 
 .jqVideo5_sound_btn
 {
   width: 16px;
   height: 16px;
-  background-image: url(../img/soundIcon.png);
+  background: url(../img/spritecontroller.png) -48px 0;
+}
+
+.jqVideo5_sound_btn:hover
+{
+  background: url(../img/spritecontroller.png) -48px -16px;
 }
 
 .jqVideo5_sound_btn.mute
 {
   width: 16px;
   height: 16px;
-  background-image: url(../img/muteIcon.png);
+  background: url(../img/spritecontroller.png) -64px 0;
+}
+
+.jqVideo5_sound_btn.mute:hover
+{
+  background: url(../img/spritecontroller.png) -64px -16px;
 }
 
 .jqVideo5_fullscreen_btn
 {
   width: 16px;
   height: 16px;
-  background-image: url(../img/fullscreenIcon.png);
+  background: url(../img/spritecontroller.png) -32px 0;
 }
 
-.jqVideo5_controls button:hover, .jqVideo5_controls button:focus{
-	cursor:pointer;
-	opacity:1;
+.jqVideo5_fullscreen_btn:hover
+{
+   background: url(../img/spritecontroller.png) -32px -16px;
 }
 
-.jqVideo5_controls a:hover, .jqVideo5_controls a:focus{
-	opacity:1;
+.jqVideo5_captions_btn
+{
+  width: 16px;
+  height: 16px;
+  background: url(../img/spritecontroller.png) -80px 0;
+}
+
+.jqVideo5_captions_btn:hover
+{
+  background: url(../img/spritecontroller.png) -80px -16px;
 }
 
 .jqVideo5_timebar{
@@ -364,14 +393,6 @@
 	box-shadow: 0 0 5px #333;
 }
 
-.jqVideo5_controls .jqVideo5_captions_btn{
-	font-size:0.9em;
-	height:20px;
-	line-height:20px;
-	position:relative;
-	top:3px;
-}
-
 .jqVideo5_controls .jqVideo5_version_btn{
 	font-size:0.9em;
 	border:1px solid #fff;
@@ -480,14 +501,6 @@
 	opacity:1;
 }
 
-.jqVideo5_chapters_menu li{
-	list-style:none;
-	min-width:170px;
-	width:inherit;
-	padding:0 4px;
-	z-index:100;
-}
-
 .jqVideo5_fullscreen_btn{
 	padding-right:1px;
 }
@@ -503,10 +516,6 @@
 	-webkit-border-radius:200px;
 	-moz-border-radius:200px;
 	border-radius:200px;
-	-o-transition:opacity .3s ease;
-	-webkit-transition:opacity .3s ease;
-	-moz-transition:opacity .3s ease;
-	transition:opacity .3s ease;
 }
 
 .button_contex
@@ -524,24 +533,29 @@
 
 .button_contex.play
 {
-  background-image: url(../img/play_context.png);
+  background: url(../img/spritecontroller.png) 0 -34px;
+  width: 51px;
+	height:51px;
 }
 
 .button_contex.play.pause 
 {
-  background-image: url(../img/pause_context.png);
+    background: url(../img/spritecontroller.png) -51px -34px;
 }
 
 .button_contex.fullscreen
 {
-  background-image: url(../img/fullscren_context.png);
+  background: url(../img/spritecontroller.png) -103px -50px;
 }
 
 .button_contex.sound
 {
-  background-image: url(../img/sound_context.png);
+   width: 51px;
+   background: url(../img/spritecontroller.png) -100px 0;
 }
 .button_contex.sound.mute
 {
-  background-image: url(../img/mute_context.png);
+   width: 53px;
+   height:52px;
+   background: url(../img/spritecontroller.png) -153px 0;
 }
