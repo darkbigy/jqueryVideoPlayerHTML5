@@ -69,7 +69,7 @@
 	display:table;
 	height:30px;
 	width:100%;
-    top:-30px;
+    top:-10px;
 	background-color:#000;
 	color:#fff;
 	font-size:0.8em;
@@ -202,10 +202,6 @@
   width: 16px;
   height: 16px;
   background-image: url(../img/fullscreenIcon.png);
-}
-
-.jqVideo5_controls a img, .jqVideo5_controls button img{
-
 }
 
 .jqVideo5_controls button:hover, .jqVideo5_controls button:focus{
@@ -494,4 +490,58 @@
 
 .jqVideo5_fullscreen_btn{
 	padding-right:1px;
+}
+
+.jqVideo5_context_menu
+{
+	background-color: rgba(111, 111, 111, 0.5);
+	border:1px solid #000;
+	width: 150px;
+	height: 150px;
+	position:absolute;
+	overflow:hidden;
+	-webkit-border-radius:200px;
+	-moz-border-radius:200px;
+	border-radius:200px;
+	-o-transition:opacity .3s ease;
+	-webkit-transition:opacity .3s ease;
+	-moz-transition:opacity .3s ease;
+	transition:opacity .3s ease;
+}
+
+.button_contex
+{
+	position: absolute;
+	opacity: 0.75;
+	width: 50px;
+	height:50px;
+}
+
+.button_contex:hover
+{
+	opacity: 1;
+}
+
+.button_contex.play
+{
+  background-image: url(../img/play_context.png);
+}
+
+.button_contex.play.pause 
+{
+  background-image: url(../img/pause_context.png);
+}
+
+.button_contex.fullscreen
+{
+  background-image: url(../img/fullscren_context.png);
+}
+
+.button_contex.sound
+{
+  background-image: url(../img/sound_context.png);
+}
+.button_contex.sound.mute
+{
+  background-image: url(../img/mute_context.png);
 }

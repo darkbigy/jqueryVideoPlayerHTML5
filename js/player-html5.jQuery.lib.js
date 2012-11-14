@@ -27,8 +27,10 @@
       'volumeStep'			 : 0.1,
       'activeKeyboard'		 : true,
       'isFullScreenOnPlay' : false,
+      'autoPlay' : false,
       'displayControllerOnlyFullScreen' : false,
-      'activateContextualMenu'  : true	
+      'activateContextualDefaultMenu'  : true,
+      'activateContextualCustomMenu' : false	
     }, options);
     
     var nb_video = 0;
@@ -110,17 +112,81 @@
               setVolume(false, null);
               timeCode();
               displayController(!settings.displayControllerOnlyFullScreen);
-              if (!settings.activateContextualMenu)
+              initCustomContextualMenu();
+              if (settings.autoPlay)
               {
-                video.bind("contextmenu",function(){
-                  return false;
-                });
+                play();
               }
             },
             error: function (data) {
               alert(data);
             } 
         });
+      };
+      
+      /**
+       * Init custom contextual menu
+       */             
+      var initCustomContextualMenu = function()
+      {
+        $('.jqVideo5_context_menu').hide();
+        if (!settings.activateContextualDefaultMenu)
+        {
+          if (settings.activateContextualCustomMenu)
+          {
+            $('.button_contex.play').click(function(){play();$(this).blur();});
+            $('.button_contex.fullscreen').click(function(){fullScreen();$(this).blur();});
+            $('.button_contex.sound').click(function(){toggleMute();$(this).blur();});
+            video.bind('contextmenu', function(event)
+            {
+              $('.jqVideo5_context_menu').hover(function(){}, function(){$('.jqVideo5_context_menu').hide();});
+              var halfMenu = ($('.jqVideo5_context_menu').width()/2);
+              var menuX = event.pageX - halfMenu;
+              var menuY = event.pageY - halfMenu;
+              if (menuX < video.offset().left)
+              {
+                menuX = video.offset().left;
+              }
+              else if (menuX + (halfMenu*2) > video.offset().left + video.width())
+              {
+                menuX = (video.offset().left + video.width()) - halfMenu * 2;
+              }
+              if (menuY < video.offset().top)
+              {
+                menuY = video.offset().top;
+              }
+              else if (menuY + (halfMenu*2) > video.offset().top + video.height())
+              {
+                menuY = (video.offset().top + video.height() - (halfMenu*2));
+              }
+              var buttonContex = $('.button_contex');
+              buttonContex.css('left', (($('.jqVideo5_context_menu').width() - buttonContex.width()) / 2))
+               						.css('top', (($('.jqVideo5_context_menu').height() - buttonContex.height()) / 2));
+              var degree = 360 / buttonContex.length;
+              var radius = halfMenu -  buttonContex.width() / 2;
+              var center = halfMenu - buttonContex.width() / 2;
+              buttonContex.each(function(i){
+                var buttonDegree = (degree *i)*Math.PI/180;
+                var x = center + (radius*Math.cos(buttonDegree));
+                var y = center + (radius*Math.sin(buttonDegree));
+                $(this).delay(100*i).animate({
+                         			left: x,
+                         			top: y
+                },100);
+              });
+              $('.jqVideo5_context_menu').css('top', menuY +'px')
+                    									   .css('left', menuX+'px')
+                    									   .show();			
+            	 return false;
+              });
+            }
+            else
+            {
+              video.bind("contextmenu",function(){
+                return false;
+              });
+            }
+        }  
       };
       
       /**
@@ -992,10 +1058,12 @@
         if(params.video[0].volume == 0 || params.video[0].muted)                
         {
            $('.jqVideo5_sound_btn').addClass('mute');
+           $('.button_contex.sound').addClass('mute');
         }
         else if($('.jqVideo5_sound_btn').hasClass('mute'))
         {
           $('.jqVideo5_sound_btn').removeClass('mute');
+          $('.button_contex.sound').removeClass('mute');
         }
       };
       
@@ -1004,7 +1072,11 @@
        */
       var playEvent = function()
       { 
-        $('.jqVideo5_play_btn').toggleClass('pause');     
+        $('.jqVideo5_play_btn').toggleClass('pause');
+        if(settings.activateContextualCustomMenu)
+        {
+          $('.button_contex.play').toggleClass('pause');
+        }     
       };
   
       /**

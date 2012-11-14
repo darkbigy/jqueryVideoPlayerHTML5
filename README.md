@@ -22,8 +22,9 @@ JQuery HTML5 required [JQuery library](http://jquery.com/ "JQuery") implemented 
 Description 
 ---
 JQuery Video Player HTML 5 is a project based on [Playr plugin](https://github.com/delphiki/Playr "Playr")
-<br/>It fully uses JQuery implementation, improves performances and add new features
-<br/>The main purpose is to easily integrate a HTML5 video player in a web site
+<br/>It fully uses JQuery implementation, improves performances and add new features.
+<br/>The main purpose is to easily integrate a HTML5 video player in a web site.
+<br/>Because I'm a really bad graphic designer, please be clement. That's why this plugin is fully graphically editable :)
 
 
 Features 
@@ -31,6 +32,7 @@ Features
 * Easy integration
 * Subtitles (.net) tracks support
 * Customizable controller bar
+* Customizable contextual menu
 * Multi version (HD, SD, 16:9, 4:3, ...) of a same video
 * True fullscreen (Mozilla & WebKit)
 * Keyboard keys
@@ -64,7 +66,9 @@ Usage
 | activeKeyboard	   | true			      | Activate/Desactivate keyboard keys									   |
 | isFullScreenOnPlay   | false                | `true` value : Force fullscreen when video is playing / stop when not in fullscreen|
 | displayControllerOnlyFullScreen | false | `true` value : Display controller only in fullScreen State. Click to play available|
-| activateContextualMenu | true | Activate/Desactivate contextual menu on the video|	
+| activateContextualDefaultMenu | true | Activate/Desactivate contextual menu on the video|
+| activateContextualCustomMenu  | false| Activate/Desactivate custom contextual menu on the video only if 'activateContextualDefaultMenu' option is false (see below custom contextual menu)|
+|	autoPlay | false | Play automatically video when loaded if equal true|
 
 `[options]` using is :
 `$(".my_class_selector").jQueryVideoHTML5({'theme' : 'my-custom-theme.html', 'displayEmptyStrMenu' : true});`
@@ -119,7 +123,6 @@ If no track are provided, track list is not displayed.
 | <button>Space</button>| Play/Pause |
 | <button>Alt</button>+ <button>Enter</button>| FullScreen
  
-
 
 Customize theme
 ---
@@ -209,7 +212,39 @@ Then you can move, add or delete some part based on default-theme.html.
       <button class="jqVideo5_fullscreen_btn" tabindex="0"></button>
     </li>
 
-Screens
+Customize contextual menu
 ---
-![fullscreen](https://github.com/darkbigy/jqueryVideoPlayerHTML5/blob/master/img/fullscreen.png)<br/>
-![normal](https://github.com/darkbigy/jqueryVideoPlayerHTML5/blob/master/img/normal.png)
+To implement a custom contextual menu add wherever you want this `<div>`:
+
+     <div class="jqVideo5_context_menu">
+     </div>
+
+Then to add a button just add an `<div>` whith based class `button_contex`.
+<br/> For example:
+
+   <div class="jqVideo5_context_menu">
+    <div class="button_contex play"></div>
+    <div class="button_contex fullscreen"></div>
+    <div class="button_contex sound"></div>
+   </div>
+ 
+You can add an unlimited number of buttons but don't forget to manage the size of your context menu and your buttons.
+<br/><br/>
+By Default 3 actions are available:
+* Play/pause
+* Mute/unmute
+* Fullscreen
+If you want to use them just add the following classes to `button_contex` class:
+*play
+*sound
+*fullscreen
+For example : `<div class="button_contex play"></div>`.
+<br/>
+In order to add an action to your own button add a class to `button_contex` class then add an event listener on it:
+     <script type="text/javascript">
+      $(document).ready(function() { 
+        $('.button_contex.custom_1').click(function(){ //Do something};    
+      });
+     </script>
+For this button `<div class="button_contex custom_1"></div>`
+         
