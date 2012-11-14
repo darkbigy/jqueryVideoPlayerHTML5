@@ -241,11 +241,11 @@ If you want to use them just add the following classes to `button_contex` class:
 For example : `<div class="button_contex play"></div>`.
 <br/>
 In order to add an action to your own button add a class to `button_contex` class then add an event listener on it:
-     
-     <script type="text/javascript">
+
+    <script type="text/javascript">
       $(document).ready(function() { 
         $('.button_contex.custom_1').click(function(){ //Do something};    
       });
-     </script>
+    </script>
 For this button `<div class="button_contex custom_1"></div>`
          
