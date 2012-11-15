@@ -130,6 +130,7 @@
       var initCustomContextualMenu = function()
       {
         $('.jqVideo5_context_menu').hide();
+    
         if (!settings.activateContextualDefaultMenu)
         {
           if (settings.activateContextualCustomMenu)
@@ -137,20 +138,23 @@
             $('.button_contex.play').click(function(){play();$(this).blur();});
             $('.button_contex.fullscreen').click(function(){fullScreen();$(this).blur();});
             $('.button_contex.sound').click(function(){toggleMute();$(this).blur();});
+            $('.jqVideo5_context_menu').hover(function(){}, function(){$('.jqVideo5_context_menu').hide();});
             params.video.bind('contextmenu', function(event)
             {
-              $('.jqVideo5_context_menu').hover(function(){}, function(){$('.jqVideo5_context_menu').hide();});
               var halfMenu = ($('.jqVideo5_context_menu').width()/2);
               var menuX = event.pageX - halfMenu;
               var menuY = event.pageY - halfMenu;
               if (menuX < params.video.offset().left)
               {
                 menuX = params.video.offset().left;
+                console.log(menuX);
               }
               else if (menuX + (halfMenu*2) > params.video.offset().left + params.video.width())
               {
                 menuX = (params.video.offset().left + params.video.width()) - halfMenu * 2;
               }
+        	  console.log(menuY);
+              console.log(params.video.offset().top);
               if (menuY < params.video.offset().top)
               {
                 menuY = params.video.offset().top;
@@ -366,15 +370,15 @@
                                                                   	+'</label></li>');
            }
            var version_inputs = $('input', $('.jqVideo5_version', params.parent_container));
-           for (i = 0; i < version_inputs.length; ++i)
-           {
-              if (($(version_inputs[i]).val() == settings.version)
-                    || ($(version_inputs[i]).val() == $('source[src="'+params.video[0].currentSrc+'"]', params.video).attr('data-version')))
-              {
-                $(version_inputs[i]).prop('checked', true);
-                break;
-              }
-           }
+           
+           var pos = 0;
+           $(version_inputs).each(function(i){
+           		if ($(this).val() == settings.version)
+           		{
+           			pos = i;
+           		}
+           });
+     	   $(version_inputs[pos]).prop('checked', true);
            setActiveVersion();
            for (i = 0; i < version_inputs.length; ++i)
            {
