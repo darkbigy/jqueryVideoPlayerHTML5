@@ -550,12 +550,18 @@
 
 .button_contex.sound
 {
-   width: 52px;
+   width: 53px;
+   height:52px;
    background: url(../img/spritecontroller.png) -153px 0;
 }
 .button_contex.sound.mute
 {
-   width: 53px;
-   height:52px;
+   width: 52px;
+   height: 50px;
    background: url(../img/spritecontroller.png) -100px 0;
 }
+
+#note_contex
+{
+   background-image: url(../img/note_context.png);
+} 
