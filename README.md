@@ -214,7 +214,7 @@ Then you can move, add or delete some part based on default-theme.html.
 
 Customize contextual menu
 ---
-To implement a custom contextual menu add wherever you want this `<div>`:
+To implement a custom contextual menu add wherever you want in `jqVideo5_captions_wrapper` (direct son) `<div>`:
 
      <div class="jqVideo5_context_menu">
      </div>
