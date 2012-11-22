@@ -6,6 +6,10 @@ Player HTML5 using jquery
 
 EDIT: Mutli-themes are comming soon
 
+DEMO
+---
+Zip file provided or on my [webSite](http://adrianzambaux.free.fr/)
+
 License 
 ---
 GNU GPL
