@@ -645,6 +645,7 @@
       	var captions_div = $('.jqVideo5_captions', params.parent_container);
         var jqVideo5_cc_choices = $('input', $('.jqVideo5_cc_tracks', params.parent_container));
         var current_track = -1;
+        var displayed = false;
       	for (var i=0; i < jqVideo5_cc_choices.length; i++)
       	{
 			   if($(jqVideo5_cc_choices[i]).prop('checked'))
@@ -659,6 +660,7 @@
             if(params.video[0].currentTime >= params.subs[current_track][i].start 
             					&& params.video[0].currentTime <= params.subs[current_track][i].stop)
             {
+              displayed = true;
               var text = params.subs[current_track][i].text;
               var captions_wrapper = params.video.parents('.jqVideo5_captions_wrapper');
               var wrapper_classes = ['jqVideo5_captions_wrapper'];
@@ -812,6 +814,14 @@
 						captions_div.html(paragraph_caption.append(captions_lines_styles.append(text)));
 				}
 			}
+      if (!displayed)
+      {
+        captions_div.hide();
+      }
+    }
+    else
+    {
+      captions_div.hide();
     }
   }; 
       /**
