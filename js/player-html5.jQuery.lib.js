@@ -1045,14 +1045,22 @@
         {
           return;
         }
-        var buff_end = params.video[0].buffered.end(0);         
-        if(buff_end	 == params.video[0].duration)
+        var buff_end = params.video[0].buffered.end(params.video[0].buffered.length-1);
+        if (params.video[0].currentTime >= buff_end)
         {
-          $('.jqVideo5_timebar_buffer', params.parent_container).css('width', ($('.jqVideo5_timebar', params.parent_container).css('offsetWidth') - 2)+'px');
+            $('.jqVideo5_loading_activity').show();
         }
         else
         {
-          var bar_width = $('.jqVideo5_timebar', params.parent_container).css('offsetWidth');
+            $('.jqVideo5_loading_activity').hide();
+        }         
+        if(buff_end	 == params.video[0].duration)
+        {
+          $('.jqVideo5_timebar_buffer', params.parent_container).css('width', ($('.jqVideo5_timebar', params.parent_container).width() - 2)+'px');
+        }
+        else
+        {
+          var bar_width = $('.jqVideo5_timebar', params.parent_container).width();
           var cur_width = Math.round((buff_end * bar_width) / params.video[0].duration);
           $('.jqVideo5_timebar_buffer', params.parent_container).css('width', cur_width+'px');
         }

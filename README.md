@@ -136,6 +136,7 @@ First of all this code has to be at the begining of your theme :
     <div class="jqVideo5_captions_wrapper">
        <div class="jqVideo5_video_container"></div>
        <div class="jqVideo5_captions" ></div>
+       <div class="jqVideo5_loading_activity"></div>
     </div>
     <ul class="jqVideo5_controls" role="menubar">
       // Your controller here
