@@ -84,7 +84,8 @@
       'id_video'            : ++nb_video,
       'subs'                : [],
       'mouseHoverPlayer'	: false,
-      'track_ctr'         :0  
+      'track_ctr'         :0,
+      'currentPlayPos'    :0  
       });
           
        /**
@@ -204,14 +205,16 @@
         params.video.on('pause', function(){playEvent();});
         params.video.on('volumechange', function(){volumeChangeEvent();});
         params.video.on('progress', function(){progressEvent();});
-        params.video.on('loadstart', function(){timeCode();});
-        
+        params.video.on('canplay', function(){timeCode();$('.jqVideo5_loading_activity').hide();});
+        params.video.on('playing', function(){$('.jqVideo5_loading_activity').hide();});
+        params.video.on('waiting', function(){$('.jqVideo5_loading_activity').show();});
+         
         // play event
         $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();$(this).blur();});
         
         // timebar events
         $('.jqVideo5_timebar', params.parent_container).mousedown(function(){params.isHoldingTime = true;});
-        $('.jqVideo5_timebar', params.parent_container).mouseup(function(event){params.isHoldingTime = false; setPositionTimeBar(event, true);});
+        $('.jqVideo5_timebar', params.parent_container).mouseup(function(event){params.isHoldingTime = false; setPositionTimeBar(event, true); progressEvent();});
         ($('.jqVideo5_timebar', params.parent_container).parent()).mousemove(function(event){noticeTimecode(event); if (params.isHoldingTime){setPositionTimeBar(event, false);}});
         
         // fullscreen click
@@ -1026,6 +1029,7 @@
         {
           params.video[0].currentTime = Math.round(curTime * params.video[0].duration / 100);
         }
+        progressEvent();
       };
 
       /**
@@ -1042,7 +1046,10 @@
         {
           curTime = 0;
         }
-        notice.html(plugin.parseTimeCode(Math.round(curTime * params.video[0].duration / 100)));
+        if($.isNumeric(params.video[0].duration))
+        {
+          notice.html(plugin.parseTimeCode(Math.round(curTime * params.video[0].duration / 100)));
+        }
         notice.css('marginLeft', (diffx + 3 - notice[0].offsetWidth / 2)+'px');
       };
       
@@ -1051,22 +1058,37 @@
        */
       var progressEvent = function()
       {
+        if (!params.video[0].paused)
+        {
+          if (params.video[0].currentTime == params.currentPlayPos)
+          {
+            $('.jqVideo5_loading_activity').show();
+          }
+          else
+          {
+            $('.jqVideo5_loading_activity').hide();
+          }
+        }
+        else
+        {
+           $('.jqVideo5_loading_activity').hide();
+        }
+        params.currentPlayPos = params.video[0].currentTime;
         if (params.video[0].buffered.length == 0)
         {
           return;
         }
         var buff_end = params.video[0].buffered.end(params.video[0].buffered.length-1);
-        if (params.video[0].currentTime >= buff_end)
+        for (i = 0; i < params.video[0].buffered.length; ++i)
         {
-            $('.jqVideo5_loading_activity').show();
-        }
-        else
-        {
-            $('.jqVideo5_loading_activity').hide();
-        }         
+           if (params.video[0].buffered.start(i) < params.video[0].currentTime && params.video[0].currentTime < params.video[0].buffered.end(i))
+           {
+            buff_end = params.video[0].buffered.end(i);
+           }
+        }       
         if(buff_end	 == params.video[0].duration)
         {
-          $('.jqVideo5_timebar_buffer', params.parent_container).css('width', ($('.jqVideo5_timebar', params.parent_container).width() - 2)+'px');
+           $('.jqVideo5_timebar_buffer', params.parent_container).css('width', ($('.jqVideo5_timebar', params.parent_container).width())+'px');
         }
         else
         {
@@ -1126,7 +1148,10 @@
         $('.jqVideo5_video_curpos', params.parent_container).html(plugin.parseTimeCode(params.video[0].currentTime));
         if ($('.jqVideo5_video_duration', params.parent_container).html() == '00:00' || plugin.parseTimeCode(params.video[0].duration != $('.jqVideo5_video_duration', params.parent_container).html()))
         {
-          $('.jqVideo5_video_duration', params.parent_container).html(plugin.parseTimeCode(params.video[0].duration));
+          if ($.isNumeric(params.video[0].duration))
+          {
+            $('.jqVideo5_video_duration', params.parent_container).html(plugin.parseTimeCode(params.video[0].duration));
+          }
         }        
   			if(!params.isHoldingTime)
         {
