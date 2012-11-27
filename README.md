@@ -8,7 +8,7 @@ EDIT: Mutli-themes are comming soon
 
 DEMO
 ---
-Zip file provided or on my [webSite](http://adrianzambaux.free.fr/)
+Zip file provided or on my [webSite](http://adrianzambaux.free.fr/playerHTML5)
 
 License 
 ---
