@@ -46,6 +46,7 @@
 
 .jqVideo5_captions_wrapper{
 	position:relative;
+  line-height: normal;
 }
 
 .jqVideo5_captions{
@@ -245,6 +246,7 @@
 .jqVideo5_timebar{
 	height:10px;
 	width:100%;
+  position: relative;
 	border:1px solid #fff;
 	background: #666; /* Old browsers */
 	background: -moz-linear-gradient(top, #666 0%, #8e8e8e 50%, #666 100%); /* FF3.6+ */
