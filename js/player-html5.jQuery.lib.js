@@ -225,7 +225,8 @@
                                .on('mouseup', function(){if (params.isHoldingTime){activeMovingPos(false);}})
                                .on('mousemove', function(event){if (params.isHoldingTime){setPositionTimeBar(event, true);noticeTimecode(event);}else{mouseMoveHoverPlayer();}})
                                .on('hover', function(){params.mouseHoverPlayer = true;}, function(){params.mouseHoverPlayer = false;if(!params.video[0].paused){showController(false);}})
-                               .on('mousemove', function(){mouseMoveHoverPlayer(true);});
+                               .on('mousemove', function(){mouseMoveHoverPlayer(true);})
+                               .on('drag', function(){});
         
         // fullscreen click
         $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();$(this).blur();});
@@ -236,10 +237,11 @@
                    .on('keydown', function(event){keyPressed(event)});  //key pressed
         
         // volume control events
+        $('.jqVideo5_volume_ctrl', params.parent_container).on('mouseleave', function(event){params.isHoldingVolume = false;});
         $('.jqVideo5_volumebar', params.parent_container).on('mousedown', function(){params.isHoldingVolume = true;})
                                                          .on('mouseup', function(event){params.isHoldingVolume = false; setVolume(true, event);})
                                                          .on('mousemove', function(event){if(params.isHoldingVolume){setVolume(true, event)}});
-        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();$(this).blur();});              
+        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();});                                                                       
       };
       
       var activeMovingPos = function(mousedown)

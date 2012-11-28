@@ -329,8 +329,7 @@
 
 .jqVideo5_controls > li:nth-child(4):hover .jqVideo5_volume_ctrl,
 .jqVideo5_volume_ctrl:hover,
-.jqVideo5_mute_btn:focus + .jqVideo5_volume_ctrl,
-.jqVideo5_volume_ctrl:focus{
+.jqVideo5_mute_btn:focus + .jqVideo5_volume_ctrl{
 	display:block;
 	opacity:1;
 }
