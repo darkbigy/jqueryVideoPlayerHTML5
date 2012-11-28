@@ -268,6 +268,7 @@
 	width:0;
 	background-color:#32414f;
 	-webkit-border-radius:10px;
+
 	-moz-border-radius:10px;
 	border-radius:10px;
 }
@@ -316,7 +317,7 @@
 	transition:opacity .3s ease;
 }
 
-.jqVideo5_timebar:hover + .jqVideo5_timebar_notice{
+.jqVideo5_timebar:hover + .jqVideo5_timebar_notice, .jqVideo5_timebar_notice_pos_move{
 	position:absolute;
 	margin-top:-45px;
 	display:block;

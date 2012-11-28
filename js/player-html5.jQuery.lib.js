@@ -30,7 +30,7 @@
       'autoPlay' : false,
       'displayControllerOnlyFullScreen' : false,
       'activateContextualDefaultMenu'  : true,
-      'activateContextualCustomMenu' : false	
+      'activateContextualCustomMenu' : false
     }, options);
     
     var nb_video = 0;
@@ -85,7 +85,8 @@
       'subs'                : [],
       'mouseHoverPlayer'	: false,
       'track_ctr'         :0,
-      'currentPlayPos'    :0  
+      'currentPlayPos'    :0,
+      'wasPlaying'        :false
       });
           
        /**
@@ -198,46 +199,64 @@
       var initEventsListeners = function ()
       { 
         // video events
-        params.video.on('click', function(){play();});
-        params.video.on('timeupdate', function(){timeCode();displayCaptions();});
-        params.video.on('ended', function(){eventEnded();});
-        params.video.on('play', function(){playEvent();});
-        params.video.on('pause', function(){playEvent();});
-        params.video.on('volumechange', function(){volumeChangeEvent();});
-        params.video.on('progress', function(){progressEvent();});
-        params.video.on('canplay', function(){timeCode();$('.jqVideo5_loading_activity').hide();});
-        params.video.on('playing', function(){$('.jqVideo5_loading_activity').hide();});
-        params.video.on('waiting', function(){$('.jqVideo5_loading_activity').show();});
+        params.video.on('click', function(){play();})
+                    .on('timeupdate', function(){timeCode();displayCaptions();})
+                    .on('ended', function(){eventEnded();})
+                    .on('play', function(){playEvent();})
+                    .on('pause', function(){playEvent();})
+                    .on('volumechange', function(){volumeChangeEvent();})
+                    .on('progress', function(){progressEvent();})
+                    .on('canplay', function(){timeCode();$('.jqVideo5_loading_activity').hide();})
+                    .on('playing', function(){$('.jqVideo5_loading_activity').hide();})
+                    .on('waiting', function(){$('.jqVideo5_loading_activity').show();});
          
         // play event
         $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();$(this).blur();});
         
         // timebar events
-        $('.jqVideo5_timebar', params.parent_container).mousedown(function(){params.isHoldingTime = true;});
-        $('.jqVideo5_timebar', params.parent_container).mouseup(function(event){params.isHoldingTime = false; setPositionTimeBar(event, true); progressEvent();});
-        ($('.jqVideo5_timebar', params.parent_container).parent()).mousemove(function(event){noticeTimecode(event); if (params.isHoldingTime){setPositionTimeBar(event, false);}});
+        $('.jqVideo5_timebar', params.parent_container).on('mouseup', function(event){if (event.button == 0){setPositionTimeBar(event, true);}})
+                                                       .on('mousemove', function(event){noticeTimecode(event);});
+        $('.jqVideo5_timebar_pos', params.parent_container).on('mousedown', function(event){activeMovingPos(true);})
+                                                           .on('mouseup', function(event){activeMovingPos(false);})
+                                                           .on('drag', function(){});
+                                                           
+        //mouse event                                                   
+        params.parent_container.on('mouseleave', function(){if (params.isHoldingTime){activeMovingPos(false);}mouseMoveHoverPlayer(false);})
+                               .on('mouseup', function(){if (params.isHoldingTime){activeMovingPos(false);}})
+                               .on('mousemove', function(event){if (params.isHoldingTime){setPositionTimeBar(event, true);noticeTimecode(event);}else{mouseMoveHoverPlayer();}})
+                               .on('hover', function(){params.mouseHoverPlayer = true;}, function(){params.mouseHoverPlayer = false;if(!params.video[0].paused){showController(false);}})
+                               .on('mousemove', function(){mouseMoveHoverPlayer(true);});
         
         // fullscreen click
-        $('.jqVideo5_fullscreen_btn', params.parent_container).click(function(){fullScreen();$(this).blur();});
+        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();$(this).blur();});
         
         // true fullscreen
-        $(document).on('mozfullscreenchange', function(){if(!$(document)[0].mozFullScreen && params.isTrueFullscreen){fullScreen();}});
-        $(document).on('webkitfullscreenchange', function(){if(!$(document)[0].webkitIsFullScreen && params.isTrueFullscreen){fullScreen();}});
+        $(document).on('mozfullscreenchange', function(){if(!$(document)[0].mozFullScreen && params.isTrueFullscreen){fullScreen();}})
+                   .on('webkitfullscreenchange', function(){if(!$(document)[0].webkitIsFullScreen && params.isTrueFullscreen){fullScreen();}})
+                   .on('keydown', function(event){keyPressed(event)});  //key pressed
         
         // volume control events
-        $('.jqVideo5_volumebar', params.parent_container).mousedown(function(){params.isHoldingVolume = true;});
-        $('.jqVideo5_volumebar', params.parent_container).mouseup(function(event){params.isHoldingVolume = false; setVolume(true, event);});
-        $('.jqVideo5_volumebar', params.parent_container).mousemove(function(event){if(params.isHoldingVolume){setVolume(true, event)}});
-        $('.jqVideo5_sound_btn', params.parent_container).click(function(){toggleMute();$(this).blur();});      
-        
-        //mouse event
-        params.parent_container.hover(function(){params.mouseHoverPlayer = true;}, function(){params.mouseHoverPlayer = false;if(!params.video[0].paused){showController(false);}});
-        params.parent_container.mousemove(function(){mouseMoveHoverPlayer();});
-        
-        //Key Event
-        $(document).on('keydown', function(event){keyPressed(event)});
+        $('.jqVideo5_volumebar', params.parent_container).on('mousedown', function(){params.isHoldingVolume = true;})
+                                                         .on('mouseup', function(event){params.isHoldingVolume = false; setVolume(true, event);})
+                                                         .on('mousemove', function(event){if(params.isHoldingVolume){setVolume(true, event)}});
+        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();$(this).blur();});              
       };
       
+      var activeMovingPos = function(mousedown)
+      {
+         if (!params.video[0].paused && mousedown)
+         {
+            params.wasPlaying = true;
+            params.video[0].pause();
+         }
+         else if (params.wasPlaying && !mousedown)
+         {
+            params.wasPlaying = false;
+            params.video[0].play(); 
+         }
+         params.isHoldingTime = mousedown;
+         $('.jqVideo5_timebar_notice', params.parent_container).toggleClass('jqVideo5_timebar_notice_pos_move');
+      }
       /**
        *  Display or not the controller
        */             
@@ -614,6 +633,7 @@
               text = text + '\n' + lines[i];
               i++;
              }
+
              entries.push({
               'identifier': identifier[0],
               'start': tc2sec(timecode[1]),
@@ -925,17 +945,21 @@
        /**
        *  @description Action when the mouse is hover the video Player or not            
        */
-      var mouseMoveHoverPlayer = function()
+      var mouseMoveHoverPlayer = function(over)
       {
-        if (!params.video[0].paused && params.mouseHoverPlayer)
+        if (!params.video[0].paused && over)
         {
             setTimeOutFadeOut();
+        }
+        else
+        {
+          clearTimeout(stop_timeout);
+          showController(true);
         }
       };
       
       var setTimeOutFadeOut = function()
       {
-          showController(true);
           clearTimeout(stop_timeout);
           stop_timeout = setTimeout(function() {
             showController(false);
@@ -1025,12 +1049,15 @@
         var pos = findPos(timebar[0]);
         var diffx = event.clientX - pos.x;
         var curTime = Math.round(diffx * 100 / timebar[0].offsetWidth);
+        if (curTime > 100)
+        {
+          curTime = 100;
+        }
         $('.jqVideo5_timebar_inner', params.parent_container).css('width', curTime.toString()+'%');
-        if(update)
+        if(update && curTime != 100 && curTime != 0)
         {
           params.video[0].currentTime = Math.round(curTime * params.video[0].duration / 100);
         }
-        progressEvent();
       };
 
       /**
@@ -1046,6 +1073,18 @@
         if(curTime < 0)
         {
           curTime = 0;
+        }
+        if (curTime > 100)
+        {
+          curTime = 100;
+        }
+        if (diffx > timebar[0].offsetWidth)
+        {
+          diffx = timebar[0].offsetWidth;
+        }
+        else if (diffx < 0)
+        {
+          diffx = 0;
         }
         if($.isNumeric(params.video[0].duration))
         {
@@ -1063,11 +1102,13 @@
         {
           if (params.video[0].currentTime == params.currentPlayPos)
           {
+
             $('.jqVideo5_loading_activity').show();
           }
           else
           {
             $('.jqVideo5_loading_activity').hide();
+            params.loopCounter = 0;
           }
         }
         else
@@ -1079,14 +1120,7 @@
         {
           return;
         }
-        var buff_end = params.video[0].buffered.end(params.video[0].buffered.length-1);
-        for (i = 0; i < params.video[0].buffered.length; ++i)
-        {
-           if (params.video[0].buffered.start(i) < params.video[0].currentTime && params.video[0].currentTime < params.video[0].buffered.end(i))
-           {
-            buff_end = params.video[0].buffered.end(i);
-           }
-        }       
+        var buff_end = params.video[0].buffered.end(params.video[0].buffered.length-1);       
         if(buff_end	 == params.video[0].duration)
         {
            $('.jqVideo5_timebar_buffer', params.parent_container).css('width', '100%');
@@ -1123,6 +1157,15 @@
         if(settings.activateContextualCustomMenu)
         {
           $('.button_contex.play').toggleClass('pause');
+        }
+        if (params.video[0].paused)
+        {
+          clearTimeout(stop_timeout);
+          showController(true);
+        }
+        else
+        {
+          setTimeOutFadeOut();
         }     
       };
   
@@ -1134,8 +1177,6 @@
         params.video[0].currentTime = 0;
         params.video[0].pause();
         $('.jqVideo5_play_btn').toggleClass('pause');
-        clearTimeout(stop_timeout);
-        showController(true);
       };
 
       /**
@@ -1167,8 +1208,6 @@
         if (params.video[0].paused)
         {
           params.video[0].play();
-          showController(params.mouseHoverPlayer);
-          setTimeOutFadeOut();
           if (settings.isFullScreenOnPlay && !params.isFullscreen)
           {
             fullScreen();
@@ -1177,8 +1216,6 @@
         else
         {
           params.video[0].pause();
-          showController(true);
-          clearTimeout(stop_timeout);
         }
       };
       
