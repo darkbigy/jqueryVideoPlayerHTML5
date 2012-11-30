@@ -11,9 +11,10 @@
 	display:inline-block;
 	font-size:12pt;
   z-index: 0;
+  width: 100%;
 }
 
-.jqVideo5_wrapper>video
+.jqVideo5_wrapper video
 {
   width: 100%;
 }
@@ -84,6 +85,7 @@
 .jqVideo5_captions_wrapper{
 	position:relative;
   line-height: normal;
+  width: 100%;
 }
 
 .jqVideo5_captions{

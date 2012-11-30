@@ -1,0 +1,51 @@
+/**
+ * Playr
+ *
+ * @author Julien 'delphiki' Villetorte <gdelphiki@gmail.com>
+ * http://twitter.com/delphiki
+ * http://www.delphiki.com/html5/playr
+ */
+
+.jqVideo5_top_overlay{
+	padding:10px;
+	color:#fff;
+	position:absolute;
+	opacity:0;
+	-o-transition:opacity .3s ease;
+	-webkit-transition:opacity .3s ease;
+	-moz-transition:opacity .3s ease;
+	transition:opacity .3s ease;
+}
+
+.jqVideo5_top_overlay a{
+	color:#fff;
+}
+
+.jqVideo5_wrapper:hover .jqVideo5_top_overlay{
+	opacity:0.5;
+}
+
+.jqVideo5_captions_wrapper{
+	position:relative;
+  line-height: normal;
+}
+
+.jqVideo5_captions{
+	position:absolute;
+	bottom:4px;
+	width:100%;
+	color:#fff;
+	overflow:hidden;
+}
+
+.jqVideo5_captions p{
+	display:inline-block;
+	margin:auto;
+	padding:4px;
+	background-color:rgba(0,0,0,0.75);
+}
+
+.jqVideo5_controls{
+  background-color: transparent;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#000000, endColorstr=#100470);
+}
