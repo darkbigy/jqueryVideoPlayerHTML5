@@ -562,7 +562,7 @@
 .jqVideo5_loading_activity
 {
    background-color: white;
-   background-image: url(../img/ajaxLoader.gif);
+   background-image: url(../img/videoLoader.gif);
    width: 136px;
    height: 10px;
    display: block;
