@@ -13,6 +13,11 @@
   z-index: 0;
 }
 
+.jqVideo5_wrapper>video
+{
+  width: 100%;
+}
+
 .jqVideo5_wrapper:-webkit-full-screen {
   width: 100%;
   height: 100%;
