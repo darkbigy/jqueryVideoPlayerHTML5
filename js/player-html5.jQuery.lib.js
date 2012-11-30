@@ -122,7 +122,7 @@
               }
             },
             error: function (data) {
-              alert(data);
+             alert(settings.themePath+settings.theme+" "+data.statusText);
             } 
         });
       };
@@ -301,6 +301,12 @@
       	{
       		switch(event.keyCode)
       		{
+          case 27: // escape
+            if (params.isFullscreen)
+            {
+              fullScreen();
+            }
+          break;
           case 13: // enter
             if (event.altKey)
             {
@@ -309,6 +315,7 @@
           break;
       		case 32: // space bar
       			play();
+            event.preventDefault();
       		break;
       		case 37: // arrow left
       			if (params.video[0].currentTime - settings.skipStep < 0)
@@ -541,7 +548,7 @@
 
           },
          error: function (data) {
-            alert(data);
+            alert("srt "+data.statusText);
          } 
         });
       };
@@ -849,7 +856,7 @@
     {
       captions_div.hide();
     }
-  }; 
+  };  
       /**
        *  @description Method called when fullscreen button is clicked    
        */
@@ -862,6 +869,17 @@
       	var vids = $('.jqVideo5_wrapper');
       	var wrapper = params.parent_container;
   		  var captions = $('.jqVideo5_captions', wrapper);
+        var regexMatchSafari = /Version\/(\S+).*?Safari\//;
+        var regexMatchSafariVersion = /(\d+)[\.\d+]*/;
+        var safariAbstract = navigator.userAgent.match(regexMatchSafari);
+        var versionSafariAbsract = 6;
+        if (safariAbstract != null && safariAbstract.length > 1)
+        {
+          if ((safariAbstract[1].match(regexMatchSafariVersion)).length > 1)
+          {
+             versionSafariAbsract = safariAbstract[1].match(regexMatchSafariVersion)[1];
+          }
+        }
         if(!params.isFullscreen)
         {
            displayController(true);
@@ -872,32 +890,37 @@
   			   wrapper.css('visibility', 'visible');
            params.fsStyle = ({'height' : wrapper.css('height'), 'width' : wrapper.css('width')});
            params.fsVideoStyle = ({'height' : params.video.height(), 'width' : params.video.width()});
-           if (($('html')[0]).requestFullscreen)
+           
+           if (wrapper[0].requestFullscreen)
   			   {
               params.isTrueFullscreen = true;
-              ($('html')[0]).requestFullscreen();
+               wrapper[0].requestFullscreen();
   			   }
-  			   else if (($('html')[0]).mozRequestFullScreen)
+  			   else if (wrapper[0].mozRequestFullScreen)
   			   {
   				    params.isTrueFullscreen = true;
-  				    ($('html')[0]).mozRequestFullScreen();
+  				    wrapper[0].mozRequestFullScreen();
   			   }
-  			   else if(($('html')[0]).webkitRequestFullScreen)
+  			   else if(wrapper[0].webkitRequestFullScreen && versionSafariAbsract >= 6)
   			   {
   				    params.isTrueFullscreen = true;
-              ($('html')[0]).webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+              wrapper[0].webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
            }
-
+           else if (wrapper[0].webkitRequestFullScreen && versionSafariAbsract < 6)
+           {
+              params.isTrueFullscreen = false;
+              wrapper[0].webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+           }
+           
+           wrapper.css('position', 'fixed').css('top', 0).css('left', 0).css('height', screen.height+'px').css('width', screen.width+'px').css('backgroundColor', '#000000');
            if (params.isTrueFullscreen)
            {
-  				    wrapper.css('position', 'fixed').css('top', 0).css('left', 0).css('height', '100%').css('width', '100%').css('backgroundColor', '#000000');
               params.video.css('width', '100%').css('height', (screen.height-30)+'px');
               $('body').css('overflow', 'hidden');
   			   }
            else
-           {
-  				    wrapper.css('position', 'fixed').css('top', 0).css('left', '50%').css('height', screen.height+'px').css('width', screen.width+'px').css('background-color', '#000000').css('margin-left', '-'+Math.round(wrapper.width() / 2)+'px');
-  				    params.video.css('width', $(window).innerWidth()+'px').css('height', ($(window).innerHeight()-30)+'px');
+           {   
+  				    params.video.css('width', $(window).width()+'px').css('height', ($(window).height()-30)+'px');
       				$('body').css('overflow', 'hidden');
   			   }
   			   params.isFullscreen = true;
@@ -1122,8 +1145,8 @@
         {
           return;
         }
-        var buff_end = params.video[0].buffered.end(params.video[0].buffered.length-1);       
-        if(buff_end	 == params.video[0].duration)
+        var buff_end = params.video[0].buffered.end(params.video[0].buffered.length-1);    
+        if(buff_end	 == params.video[0].duration || (buff_end/params.video[0].duration)*100 > 100)
         {
            $('.jqVideo5_timebar_buffer', params.parent_container).css('width', '100%');
         }

@@ -13,6 +13,38 @@
   z-index: 0;
 }
 
+.jqVideo5_wrapper:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+.jqVideo5_wrapper:-webkit-full-screen .jqVideo5_video_container{
+  width: 100%;
+  height: 100%;
+}
+
+.jqVideo5_wrapper:-webkit-full-screen video{
+  width: 100%;
+  height: 100%;
+}
+
+.jqVideo5_wrapper:-moz-full-screen {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  position: fixed;
+  top: 0;
+}
+.jqVideo5_wrapper:-moz-full-screen .jqVideo5_video_container{
+  width: 100%;
+  height: 100%;
+}
+
+.jqVideo5_wrapper:-moz-full-screen video{
+  width: 100%;
+  height: 100%;
+}
+
 .jqVideo5_wrapper, .jqVideo5_wrapper *{
 	margin:0;
 	padding:0;
