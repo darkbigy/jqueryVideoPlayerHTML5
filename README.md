@@ -126,7 +126,6 @@ If no track are provided, track list is not displayed.
 | <button>←</button>| Rewind     |
 | <button>→</button>| Forward     |
 | <button>Space</button>| Play/Pause |
-| <button>Alt</button>+ <button>Enter</button>| FullScreen|
 |<button>Double click</button>| FullScreen|
  
 
