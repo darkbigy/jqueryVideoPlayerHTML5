@@ -201,7 +201,7 @@
       { 
         // video events
         var countClick = 0;
-        params.video.on('dblclick', function(){fullScreen();})
+        params.video.on('dblclick', function(){fullScreen();$(this).blur();})
                     .on('click', function(){countClick++;
                                             if(countClick == 1)
                                             {
@@ -225,14 +225,14 @@
                     .on('waiting', function(){$('.jqVideo5_loading_activity').show();});
          
         // play event
-        $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();});
+        $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();$(this).blur();});
         $('.jqVideo5_info_play_icon').on('click', function(){play();});
         
         // timebar events
-        $('.jqVideo5_timebar', params.parent_container).on('mouseup', function(event){if (event.button == 0){setPositionTimeBar(event, true);}})
-                                                       .on('mousemove', function(event){noticeTimecode(event);});
+        $('.jqVideo5_timebar', params.parent_container).on('mouseup', function(event){if (event.button == 0){setPositionTimeBar(event, true);$(this).blur();}})
+                                                       .on('mousemove', function(event){noticeTimecode(event);$(this).blur();});
         $('.jqVideo5_timebar_pos', params.parent_container).on('mousedown', function(event){activeMovingPos(true);})
-                                                           .on('mouseup', function(event){activeMovingPos(false);})
+                                                           .on('mouseup', function(event){activeMovingPos(false);$(this).blur();})
                                                            .on('drag', function(){});
                                                            
         //mouse event                                                   
@@ -244,7 +244,7 @@
                                .on('drag', function(){});
         
         // fullscreen click
-        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();});
+        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(event){fullScreen();$(this).blur();});
         
         // true fullscreen
         $(document).on('mozfullscreenchange', function(){if(!$(document)[0].mozFullScreen && params.isTrueFullscreen){fullScreen();}})
@@ -254,9 +254,9 @@
         // volume control events
         $('.jqVideo5_volume_ctrl', params.parent_container).on('mouseleave', function(event){params.isHoldingVolume = false;});
         $('.jqVideo5_volumebar', params.parent_container).on('mousedown', function(){params.isHoldingVolume = true;})
-                                                         .on('mouseup', function(event){params.isHoldingVolume = false; setVolume(true, event);})
+                                                         .on('mouseup', function(event){params.isHoldingVolume = false; setVolume(true, event);$(this).blur();})
                                                          .on('mousemove', function(event){if(params.isHoldingVolume){setVolume(true, event)}});
-        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();});                                                                       
+        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();$(this).blur();});                                                                       
       };
      
      /**
@@ -343,12 +343,6 @@
       		{
           case 27: // escape
             if (params.isFullscreen)
-            {
-              fullScreen();
-            }
-          break;
-          case 13: // enter
-            if (event.altKey)
             {
               fullScreen();
             }
