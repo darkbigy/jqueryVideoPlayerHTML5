@@ -73,6 +73,7 @@ Usage
 | activateContextualDefaultMenu | true | Activate/Desactivate contextual menu on the video|
 | activateContextualCustomMenu  | false| Activate/Desactivate custom contextual menu on the video only if 'activateContextualDefaultMenu' option is false (see below custom contextual menu)|
 |	autoPlay | false | Play automatically video when loaded if equal true|
+| dbClickDelay | 270 | Set delay to detect double click and simple|
 
 `[options]` using is :
 `$(".my_class_selector").jQueryVideoHTML5({'theme' : 'my-custom-theme.html', 'displayEmptyStrMenu' : true});`
@@ -125,7 +126,8 @@ If no track are provided, track list is not displayed.
 | <button>←</button>| Rewind     |
 | <button>→</button>| Forward     |
 | <button>Space</button>| Play/Pause |
-| <button>Alt</button>+ <button>Enter</button>| FullScreen
+| <button>Alt</button>+ <button>Enter</button>| FullScreen|
+|<button>Double click</button>| FullScreen|
  
 
 Customize theme
@@ -137,6 +139,8 @@ First of all this code has to be at the begining of your theme :
        <div class="jqVideo5_video_container"></div>
        <div class="jqVideo5_captions" ></div>
        <div class="jqVideo5_loading_activity"></div>
+       <div class="jqVideo5_info_play_icon"></div>
+       <div class="jqVideo5_info_pause_icon"></div>
     </div>
     <ul class="jqVideo5_controls" role="menubar">
       // Your controller here

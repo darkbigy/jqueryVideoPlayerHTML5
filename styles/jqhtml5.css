@@ -561,17 +561,41 @@
 
 .jqVideo5_loading_activity
 {
-   background-color: white;
-   background-image: url(../img/videoLoader.gif);
-   width: 136px;
+   width: 15%;
    height: 10px;
    display: block;
    position: absolute;
    top:50%;
-   left: 40%;
-   -webkit-border-radius:200px;
-	-moz-border-radius:200px;
-	border-radius:200px;
+   left: 42.5%;
+   background-image: url(../img/videoLoader.gif);
+   background-size:100% 100%;
+   background-repeat:no-repeat;
+}
+
+.jqVideo5_info_play_icon
+{
+  display: block;
+  position: absolute;
+  width: 10%;
+  height: 18%;
+  left: 45%;
+  top: 41%;
+  background-image: url(../img/inner_play.png);
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}
+
+.jqVideo5_info_pause_icon
+{
+  display: none;
+  position: absolute;
+  width: 10%;
+  height: 18%;
+  left: 45%;
+  top: 41%;
+  background-image: url(../img/inner_pause.png);
+  background-size:100% 100%;
+  background-repeat:no-repeat;
 }
 
 .button_contex
@@ -589,7 +613,7 @@
 
 .button_contex.play
 {
-  background: url(../img/spritecontroller.png) 0 -34px;
+  background: url(../img/spritecontroller.png) 0 -33px;
   width: 51px;
 	height:51px;
 }

@@ -30,7 +30,8 @@
       'autoPlay' : false,
       'displayControllerOnlyFullScreen' : false,
       'activateContextualDefaultMenu'  : true,
-      'activateContextualCustomMenu' : false
+      'activateContextualCustomMenu' : false,
+      'dbClickDelay': 270
     }, options);
     
     var nb_video = 0;
@@ -199,7 +200,20 @@
       var initEventsListeners = function ()
       { 
         // video events
-        params.video.on('click', function(){play();})
+        var countClick = 0;
+        params.video.on('dblclick', function(){fullScreen();})
+                    .on('click', function(){countClick++;
+                                            if(countClick == 1)
+                                            {
+                                              setTimeout(function()
+                                              {
+                                                if(countClick == 1) 
+                                                {
+                                                  play();
+                                                }
+                                                countClick = 0;
+                                              }, settings.dbClickDelay);
+                                            }})
                     .on('timeupdate', function(){timeCode();displayCaptions();})
                     .on('ended', function(){eventEnded();})
                     .on('play', function(){playEvent();})
@@ -211,7 +225,8 @@
                     .on('waiting', function(){$('.jqVideo5_loading_activity').show();});
          
         // play event
-        $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();$(this).blur();});
+        $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();});
+        $('.jqVideo5_info_play_icon').on('click', function(){play();});
         
         // timebar events
         $('.jqVideo5_timebar', params.parent_container).on('mouseup', function(event){if (event.button == 0){setPositionTimeBar(event, true);}})
@@ -229,7 +244,7 @@
                                .on('drag', function(){});
         
         // fullscreen click
-        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();$(this).blur();});
+        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();});
         
         // true fullscreen
         $(document).on('mozfullscreenchange', function(){if(!$(document)[0].mozFullScreen && params.isTrueFullscreen){fullScreen();}})
@@ -243,7 +258,10 @@
                                                          .on('mousemove', function(event){if(params.isHoldingVolume){setVolume(true, event)}});
         $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();});                                                                       
       };
-      
+     
+     /**
+      * Pause the video until the end of moving
+      */            
       var activeMovingPos = function(mousedown)
       {
          if (!params.video[0].paused && mousedown)
@@ -271,6 +289,28 @@
         else
         {
           $('.jqVideo5_controls', params.parent_container).hide();
+        }
+      }
+      
+      /**
+       * Animate inner icon       
+       */             
+      var animateInnerPlayIcon = function(action, type)
+      {
+        var iconToUse = $('.jqVideo5_info_'+action+'_icon');
+        iconToUse.show();
+        if (type == "fadeOut")
+        {
+          iconToUse.animate({
+            opacity: 0,
+            width: '25%',
+            height: '30%',
+            left: '37.5%',
+            top: '35%'
+            }, 500, function() {
+              iconToUse.removeAttr('style');
+              iconToUse.hide();
+          });  
         }
       }
       
@@ -1202,6 +1242,7 @@
         params.video[0].currentTime = 0;
         params.video[0].pause();
         $('.jqVideo5_play_btn').toggleClass('pause');
+        animateInnerPlayIcon('play', null);
       };
 
       /**
@@ -1232,6 +1273,7 @@
       {
         if (params.video[0].paused)
         {
+          animateInnerPlayIcon('play', 'fadeOut');
           params.video[0].play();
           if (settings.isFullScreenOnPlay && !params.isFullscreen)
           {
@@ -1240,6 +1282,7 @@
         }
         else
         {
+          animateInnerPlayIcon('pause', 'fadeOut');
           params.video[0].pause();
         }
       };
