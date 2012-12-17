@@ -87,7 +87,8 @@
       'mouseHoverPlayer'	: false,
       'track_ctr'         :0,
       'currentPlayPos'    :0,
-      'wasPlaying'        :false
+      'wasPlaying'        :false,
+      'firstTimePlayed'   :true
       });
           
        /**
@@ -218,6 +219,10 @@
                                                 }
                                                 countClick = 0;
                                               }, settings.dbClickDelay);
+                                              if (settings.isFullScreenOnPlay)
+                                              {
+                                                fullScreen();
+                                              }
                                             }
                                             else
                                             {
@@ -516,7 +521,10 @@
                   {
                     play();
                   }
-                  params.video.on('loadeddata', function(){params.video[0].currentTime = video_currentTime;});
+                  if (!params.firstTimePlayed)
+                  {
+                    params.video.on('loadeddata', function(){params.video[0].currentTime = video_currentTime;});
+                  }
                   isLoaded = true;
                }
            }
@@ -972,10 +980,6 @@
   		  }
   		  else
   		  {
-           if (settings.isFullScreenOnPlay && !params.video[0].paused)
-           {
-               play();
-           }
            displayController(!settings.displayControllerOnlyFullScreen);
            $('body').css('cursor', 'auto');
   			   if ($(document)[0].cancelFullscreen)
@@ -998,7 +1002,7 @@
            {
               vids.css('visibility', 'visible');
            }
-           wrapper.css('position', 'inherit').css('left', 0).css('height', params.fsStyle.height).css('width', params.fsStyle.width).css('background-color', 'transparent').css('margin-left', 0);
+           wrapper.css('position', 'inherit').css('left', 0).css('height', 0).css('width', params.fsStyle.width).css('background-color', 'transparent').css('margin-left', 0);
            params.video.css('height', params.fsVideoStyle.height+'px').css('width', params.fsVideoStyle.width+'px');
            $('body').css('overflow', 'auto');
            params.isFullscreen = false;
@@ -1284,13 +1288,10 @@
         {
           animateInnerPlayIcon('play', 'fadeOut');
           params.video[0].play();
-          if (settings.isFullScreenOnPlay && !params.isFullscreen)
-          {
-            fullScreen();
-          }
         }
         else
         {
+          params.firstTimePlayed = false;
           animateInnerPlayIcon('pause', 'fadeOut');
           params.video[0].pause();
         }
