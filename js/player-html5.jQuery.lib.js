@@ -23,6 +23,7 @@
       'fontSize'           : '12pt',
       'displayEmptyStrMenu'  :  false,
       'displayEmptyQualMenu' :  false,
+      'begin_timecode_postion' : 0,
       'skipStep'			 : 5,
       'volumeStep'			 : 0.1,
       'activeKeyboard'		 : true,
@@ -118,6 +119,10 @@
               timeCode();
               displayController(!settings.displayControllerOnlyFullScreen);
               initCustomContextualMenu();
+              if (settings.begin_timecode_postion != 0)
+              {
+                params.video[0].currentTime = settings.begin_timecode_postion;
+              }
               if (settings.autoPlay)
               {
                 play();

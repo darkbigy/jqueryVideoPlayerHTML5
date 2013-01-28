@@ -65,6 +65,7 @@ Usage
 | fontSize             | '12pt'               | Default size of str or captions                                        |
 | displayEmptyStrMenu  | false                | Do you want display the str/cc button if no tracks are found           |
 | displayEmptyQualMenu | false                | Do you want display the str/cc button if no multi versions are found   |
+| begin_timecode_postion| 0                   | Set the timecode position when the player is loader                    |
 | skipStep             | 5					  | Time rewinded/forwaded when keyboard key pressed (keyboard keys bellow)|
 | volumeStep		   | 0.1				  | Volume up/down when keyboard key pressed (keyboard keys below)         |
 | activeKeyboard	   | true			      | Activate/Desactivate keyboard keys									   |
