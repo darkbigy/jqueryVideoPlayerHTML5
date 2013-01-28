@@ -365,6 +365,7 @@
             {
               fullScreen($(this));
             }
+            event.preventDefault();
           break;
       		case 32: // space bar
       			play();
@@ -379,6 +380,7 @@
       			{
       				params.video[0].currentTime -= settings.skipStep;
       			}
+            event.preventDefault();
       		break;
       		case 38: // arrow up
       			if (params.video[0].volume + settings.volumeStep > 1)
@@ -390,6 +392,7 @@
       				params.video[0].volume += settings.volumeStep;
       			}
       			setVolume(false, null);
+            event.preventDefault();
       		break;
       		case 39: // arrow right
       			if (params.video[0].currentTime + settings.skipStep > params.video[0].duration)
@@ -400,6 +403,7 @@
       			{
       				params.video[0].currentTime += settings.skipStep;
       			}
+            event.preventDefault();
       		break;
       		case 40: // arrow down
       			if (params.video[0].volume - settings.volumeStep < 0)
@@ -411,6 +415,7 @@
       				params.video[0].volume -= settings.volumeStep;
       			}
       			setVolume(false, null);
+            event.preventDefault();
       		break;
       		}
       	}
