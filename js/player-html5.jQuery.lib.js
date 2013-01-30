@@ -119,10 +119,6 @@
               timeCode();
               displayController(!settings.displayControllerOnlyFullScreen);
               initCustomContextualMenu();
-              if (settings.begin_timecode_postion != 0)
-              {
-                params.video[0].currentTime = settings.begin_timecode_postion;
-              }
               if (settings.autoPlay)
               {
                 play();
@@ -241,7 +237,14 @@
                     .on('progress', function(){progressEvent();})
                     .on('canplay', function(){timeCode();$('.jqVideo5_loading_activity').hide();})
                     .on('playing', function(){$('.jqVideo5_loading_activity').hide();})
-                    .on('waiting', function(){$('.jqVideo5_loading_activity').show();});
+                    .on('waiting', function(){$('.jqVideo5_loading_activity').show();})
+                    .on('loadedmetadata', function(){
+                        if (settings.begin_timecode_postion != 0)
+                        {
+                          params.video[0].currentTime = settings.begin_timecode_postion;
+                          play();
+                        }
+                    });
          
         // play event
         $('.jqVideo5_play_btn', params.parent_container).on('click', function(){play();$(this).blur();});
