@@ -657,8 +657,9 @@
 	position: relative;
 }
 
-.conteneur_video p
+.conteneur_video #mediaFail
 {
+	display: none;
 	position: absolute;
 	top: 90%;
 	height: 10%;
@@ -671,5 +672,4 @@
 	background: -o-linear-gradient(left, rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.82) 50%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(left, rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.82) 50%,rgba(0,0,0,0) 100%); /* IE10+ */
 	background: linear-gradient(to right, rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.82) 50%,rgba(0,0,0,0) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
 }

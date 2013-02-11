@@ -241,7 +241,7 @@
                     .on('playing', function(){$('.jqVideo5_loading_activity').hide();})
                     .on('waiting', function(){$('.jqVideo5_loading_activity').show();})
                     .on('loadedmetadata', function(){
-                        if (settings.begin_timecode_postion != 0)
+                         if (settings.begin_timecode_postion != 0)
                         {
                           params.video[0].currentTime = settings.begin_timecode_postion;
                           play();
@@ -295,7 +295,10 @@
      var loadingFailed = function()
      {
         var posterURL = params.video.attr("poster");
-        $(".conteneur_video").html('<img alt="poster" src="'+posterURL+'"><p>Media not loaded</p>');
+        var textToDisplay = $("#mediaFail");
+        $(".conteneur_video").html('<img alt="poster" src="'+posterURL+'">');
+        $(".conteneur_video").append(textToDisplay);
+        $("#mediaFail").show();
         $("img", ".conteneur_video").css("width", "100%").css("height", "100%");
      }
 
