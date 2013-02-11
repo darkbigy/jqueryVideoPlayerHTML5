@@ -109,8 +109,10 @@
                		 .attr('class', 'jqVideo5_wrapper')
                		 .attr('data-tabindex', '0')
                		 .html(data));
+
               params.video.appendTo($('.jqVideo5_video_container', params.video.prev()));
-              params.parent_container = params.video.parents('.jqVideo5_wrapper')
+              params.parent_container = params.video.parents('.jqVideo5_wrapper');
+              $('.jqVideo5_loading_activity').hide();
               initEventsListeners();
               loadTrackTags();
               loadVersionTags();
@@ -244,6 +246,12 @@
                           params.video[0].currentTime = settings.begin_timecode_postion;
                           play();
                         }
+                    })
+                    .on('load', function(event){
+                      if(this.networkState == HTMLMediaElement.NETWORK_NO_SOURCE)
+                      {
+                        loadingFailed(event);
+                      }
                     });
          
         // play event
@@ -281,6 +289,16 @@
         $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();$(this).blur();});                                                                       
       };
      
+     /**
+      * Event send when the video load fails
+      **/
+     var loadingFailed = function()
+     {
+        var posterURL = params.video.attr("poster");
+        $(".conteneur_video").html('<img alt="poster" src="'+posterURL+'"><p>Media not loaded</p>');
+        $("img", ".conteneur_video").css("width", "100%").css("height", "100%");
+     }
+
      /**
       * Pause the video until the end of moving
       */            
