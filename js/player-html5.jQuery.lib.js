@@ -98,38 +98,41 @@
        */
        var init = function()
       {
-        $.ajax({
-            url: settings.themePath + settings.theme,
-            dataType: 'html',
-            success: function(data) 
-            {
-             // Move video element inside jqVideo5 wrapper
-             params.video.removeAttr('controls')           
-               		 .before($('<div></div>')
-               		 .attr('class', 'jqVideo5_wrapper')
-               		 .attr('data-tabindex', '0')
-               		 .html(data));
-
-              params.video.appendTo($('.jqVideo5_video_container', params.video.prev()));
-              params.parent_container = params.video.parents('.jqVideo5_wrapper');
-              $('.jqVideo5_loading_activity').hide();
-              initEventsListeners();
-              loadTrackTags();
-              loadVersionTags();
-              params.video[0].volume = settings.defaultVolume;
-              setVolume(false, null);
-              timeCode();
-              displayController(!settings.displayControllerOnlyFullScreen);
-              initCustomContextualMenu();
-              if (settings.autoPlay)
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) == false) 
+        {
+          $.ajax({
+              url: settings.themePath + settings.theme,
+              dataType: 'html',
+              success: function(data) 
               {
-                play();
-              }
-            },
-            error: function (data) {
-             alert(settings.themePath+settings.theme+" "+data.statusText);
-            } 
-        });
+               // Move video element inside jqVideo5 wrapper
+               params.video.removeAttr('controls')           
+                 		 .before($('<div></div>')
+                 		 .attr('class', 'jqVideo5_wrapper')
+                 		 .attr('data-tabindex', '0')
+                 		 .html(data));
+
+                params.video.appendTo($('.jqVideo5_video_container', params.video.prev()));
+                params.parent_container = params.video.parents('.jqVideo5_wrapper');
+                $('.jqVideo5_loading_activity').hide();
+                initEventsListeners();
+                loadTrackTags();
+                loadVersionTags();
+                params.video[0].volume = settings.defaultVolume;
+                setVolume(false, null);
+                timeCode();
+                displayController(!settings.displayControllerOnlyFullScreen);
+                initCustomContextualMenu();
+                if (settings.autoPlay)
+                {
+                  play();
+                }
+              },
+              error: function (data) {
+               alert(settings.themePath+settings.theme+" "+data.statusText);
+              } 
+          });
+        }
       };
       
       /**

@@ -657,7 +657,7 @@
 	position: relative;
 }
 
-.conteneur_video #mediaFail
+#mediaFail
 {
 	display: none;
 	position: absolute;
