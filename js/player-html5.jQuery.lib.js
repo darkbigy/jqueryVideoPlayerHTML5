@@ -69,10 +69,8 @@
        	settings.activeKeyboard = activate;
       };
       
-      
     // Content of the plugin 
-    return this.each(function(){   
-
+    return this.each(function(){ 
       // unique video plugin parameters
       var params = ({
       'isHoldingTime'       : false,
@@ -239,7 +237,7 @@
                     .on('play', function(){playEvent();})
                     .on('pause', function(){playEvent();})
                     .on('volumechange', function(){volumeChangeEvent();})
-                    .on('progress', function(){progressEvent();})
+                    .on('progress', function(event){progressEvent(event);})
                     .on('canplay', function(){timeCode();$('.jqVideo5_loading_activity').hide();})
                     .on('playing', function(){$('.jqVideo5_loading_activity').hide();})
                     .on('waiting', function(){$('.jqVideo5_loading_activity').show();})
@@ -274,15 +272,14 @@
                                .on('mousemove', function(event){if (params.isHoldingTime){setPositionTimeBar(event, true);noticeTimecode(event);}else{mouseMoveHoverPlayer();}})
                                .on('hover', function(){params.mouseHoverPlayer = true;}, function(){params.mouseHoverPlayer = false;if(!params.video[0].paused){showController(false);}})
                                .on('mousemove', function(){mouseMoveHoverPlayer(true);})
-                               .on('drag', function(){});
+                               .on('drag', function(){}).on('keydown', function(event){keyPressed(event)});                     //key pressed
         
         // fullscreen click
         $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();$(this).blur();});
         
         // true fullscreen
         $(document).on('mozfullscreenchange', function(){if(!$(document)[0].mozFullScreen && params.isTrueFullscreen){fullScreen();}})
-                   .on('webkitfullscreenchange', function(){if(!$(document)[0].webkitIsFullScreen && params.isTrueFullscreen){fullScreen();}})
-                   .on('keydown', function(event){keyPressed(event)});  //key pressed
+                   .on('webkitfullscreenchange', function(){if(!$(document)[0].webkitIsFullScreen && params.isTrueFullscreen){fullScreen();}});
         
         // volume control events
         $('.jqVideo5_volume_ctrl', params.parent_container).on('mouseleave', function(event){params.isHoldingVolume = false;});
@@ -382,7 +379,7 @@
        * check key pressed and assigns an action
        */             
       var keyPressed = function(event)
-      {
+      { 
       	if (settings.activeKeyboard && event.type == 'keydown')
       	{
       		switch(event.keyCode)
@@ -1204,45 +1201,13 @@
       /**
        *  @description Event called when the video is called   
        */
-      var progressEvent = function()
+      var progressEvent = function(event)
       {
-        if (!params.video[0].paused)
+        if (params.video[0].buffered.length > 0)
         {
-          if (params.video[0].currentTime == params.currentPlayPos)
-          {
-
-            $('.jqVideo5_loading_activity').show();
-          }
-          else
-          {
-            $('.jqVideo5_loading_activity').hide();
-            params.loopCounter = 0;
-          }
-        }
-        else
-        {
-           $('.jqVideo5_loading_activity').hide();
-        }
-        params.currentPlayPos = params.video[0].currentTime;
-        if (params.video[0].buffered.length == 0)
-        {
-          return;
-        }
-        var buff_end = params.video[0].buffered.end(params.video[0].buffered.length-1);
-        for(i = 0; i < params.video[0].buffered.length; ++i)
-        {
-          if (params.video[0].currentTime >= params.video[0].buffered.start(i) && params.video[0].currentTime < params.video[0].buffered.end(i))
-          {
-            buff_end = params.video[0].buffered.end(i);
-          }
-        }  
-        if(buff_end	 == params.video[0].duration || (buff_end/params.video[0].duration)*100 > 100)
-        {
-           $('.jqVideo5_timebar_buffer', params.parent_container).css('width', '100%');
-        }
-        else
-        {
-          $('.jqVideo5_timebar_buffer', params.parent_container).css('width', ((buff_end/params.video[0].duration)*100)+'%');
+          //var buffered = params.video[0].buffered.end(0);
+          //var percent = 100 * buffered / params.video[0].duration;
+          //$('.jqVideo5_timebar_buffer', params.parent_container).css('width', percent+'%');
         }
       };
   
@@ -1299,7 +1264,24 @@
        *  @description Update time labels (duration and curent timecode)   
        */
       var timeCode = function()
-      {                                 
+      { 
+        if (!params.video[0].paused)
+        {
+          if (params.video[0].currentTime == params.currentPlayPos)
+          {
+
+            $('.jqVideo5_loading_activity').show();
+          }
+          else
+          {
+            $('.jqVideo5_loading_activity').hide();
+          }
+        }
+        else
+        {
+           $('.jqVideo5_loading_activity').hide();
+        }
+        params.currentPlayPos = params.video[0].currentTime;                  
         $('.jqVideo5_timebar', params.parent_container).attr('aria-valuemax', Math.round(params.video[0].duration * 100) / 100);
         $('.jqVideo5_timebar', params.parent_container).attr('aria-valuenow', params.video[0].currentTime); 
         $('.jqVideo5_video_curpos', params.parent_container).html(plugin.parseTimeCode(params.video[0].currentTime));
