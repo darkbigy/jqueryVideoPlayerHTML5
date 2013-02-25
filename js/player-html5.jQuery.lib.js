@@ -87,7 +87,8 @@
       'track_ctr'         :0,
       'currentPlayPos'    :0,
       'wasPlaying'        :false,
-      'firstTimePlayed'   :true
+      'firstTimePlayed'   :true,
+      'prev_pos_cursor'   :null
       });
           
        /**
@@ -211,7 +212,8 @@
       { 
         // video events
         var countClick = 0;
-        params.video.on('click', function(){countClick++;
+        params.video.on('click', function(){params.video.focus();
+                                            countClick++;
                                             if(countClick == 1)
                                             {
                                               var self = this;
@@ -269,9 +271,37 @@
         //mouse event                                                   
         params.parent_container.on('mouseleave', function(){if (params.isHoldingTime){activeMovingPos(false);}mouseMoveHoverPlayer(false);})
                                .on('mouseup', function(){if (params.isHoldingTime){activeMovingPos(false);}})
-                               .on('mousemove', function(event){if (params.isHoldingTime){setPositionTimeBar(event, true);noticeTimecode(event);}else{mouseMoveHoverPlayer();}})
+                               .on('mousemove', function(event)
+                                {
+                                  if (params.isHoldingTime)
+                                  {
+                                    setPositionTimeBar(event, true);
+                                    noticeTimecode(event);
+                                  }
+                                  else
+                                  {
+                                    if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
+                                    {
+                                      if (params.prev_pos_cursor != null && (event.clientX != params.prev_pos_cursor.x || event.clientY != params.prev_pos_cursor.y))
+                                      {
+                                        showController(true);
+                                      }
+                                      else
+                                      {
+                                        params.prev_pos_cursor = new Object();
+                                      }
+                                      mouseMoveHoverPlayer(true);
+                                      params.prev_pos_cursor.x = event.clientX;
+                                      params.prev_pos_cursor.y = event.clientY;
+                                    }
+                                    else
+                                    {
+                                      showController(true);
+                                      mouseMoveHoverPlayer(true);
+                                    }
+                                  }
+                                })
                                .on('hover', function(){params.mouseHoverPlayer = true;}, function(){params.mouseHoverPlayer = false;if(!params.video[0].paused){showController(false);}})
-                               .on('mousemove', function(){mouseMoveHoverPlayer(true);})
                                .on('drag', function(){}).on('keydown', function(event){keyPressed(event)});                     //key pressed
         
         // fullscreen click
