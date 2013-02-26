@@ -37,7 +37,8 @@
     
     var nb_video = 0;
     var plugin = this;
-    var stop_timeout = false; 
+    var stop_timeout = false;
+    var sound_timeout = false; 
 
 	   /**
        *  @description Parse Timecode in sec and minute   
@@ -212,7 +213,7 @@
       { 
         // video events
         var countClick = 0;
-        params.video.on('click', function(){params.video.focus();
+        params.video.on('click', function(){
                                             countClick++;
                                             if(countClick == 1)
                                             {
@@ -262,10 +263,10 @@
         $('.jqVideo5_info_play_icon').on('click', function(){play();});
         
         // timebar events
-        $('.jqVideo5_timebar', params.parent_container).on('mouseup', function(event){if (event.button == 0){setPositionTimeBar(event, true);$(this).blur();}})
-                                                       .on('mousemove', function(event){noticeTimecode(event);$(this).blur();});
+        $('.jqVideo5_timebar', params.parent_container).on('mouseup', function(event){if (event.button == 0){setPositionTimeBar(event, true);params.video.focus();$(this).blur();}})
+                                                       .on('mousemove', function(event){noticeTimecode(event);params.video.focus();$(this).blur();});
         $('.jqVideo5_timebar_pos', params.parent_container).on('mousedown', function(event){activeMovingPos(true);})
-                                                           .on('mouseup', function(event){activeMovingPos(false);$(this).blur();})
+                                                           .on('mouseup', function(event){activeMovingPos(false);$(this).blur();params.video.focus();})
                                                            .on('drag', function(){});
                                                            
         //mouse event                                                   
@@ -305,18 +306,18 @@
                                .on('drag', function(){}).on('keydown', function(event){keyPressed(event)});                     //key pressed
         
         // fullscreen click
-        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();$(this).blur();});
+        $('.jqVideo5_fullscreen_btn', params.parent_container).on('click', function(){fullScreen();params.video.focus();$(this).blur();});
         
         // true fullscreen
         $(document).on('mozfullscreenchange', function(){if(!$(document)[0].mozFullScreen && params.isTrueFullscreen){fullScreen();}})
                    .on('webkitfullscreenchange', function(){if(!$(document)[0].webkitIsFullScreen && params.isTrueFullscreen){fullScreen();}});
         
         // volume control events
-        $('.jqVideo5_volume_ctrl', params.parent_container).on('mouseleave', function(event){params.isHoldingVolume = false;});
+        $('.jqVideo5_volume_ctrl', params.parent_container).on('mouseleave', function(event){params.isHoldingVolume = false;params.video.focus();});
         $('.jqVideo5_volumebar', params.parent_container).on('mousedown', function(){params.isHoldingVolume = true;})
                                                          .on('mouseup', function(event){params.isHoldingVolume = false; setVolume(true, event);$(this).blur();})
                                                          .on('mousemove', function(event){if(params.isHoldingVolume){setVolume(true, event)}});
-        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();$(this).blur();});                                                                       
+        $('.jqVideo5_sound_btn', params.parent_container).on('click', function(){toggleMute();params.video.focus();$(this).blur();});                                                                       
       };
      
      /**
@@ -434,6 +435,8 @@
       			{
       				params.video[0].currentTime -= settings.skipStep;
       			}
+            showController(true);
+            mouseMoveHoverPlayer(true);
             event.preventDefault();
       		break;
       		case 38: // arrow up
@@ -445,6 +448,9 @@
       			{
       				params.video[0].volume += settings.volumeStep;
       			}
+            showController(true);
+            mouseMoveHoverPlayer(true);
+            display_sound_controller();
       			setVolume(false, null);
             event.preventDefault();
       		break;
@@ -457,6 +463,8 @@
       			{
       				params.video[0].currentTime += settings.skipStep;
       			}
+            showController(true);
+            mouseMoveHoverPlayer(true);
             event.preventDefault();
       		break;
       		case 40: // arrow down
@@ -468,12 +476,24 @@
       			{
       				params.video[0].volume -= settings.volumeStep;
       			}
+            showController(true);
+            display_sound_controller();
+            mouseMoveHoverPlayer(true);
       			setVolume(false, null);
             event.preventDefault();
       		break;
       		}
       	}
       };
+
+      var display_sound_controller = function()
+      {
+        clearTimeout(sound_timeout);
+        $(".jqVideo5_volume_ctrl").css("opacity", 1).show();
+        sound_timeout = setTimeout(function() {
+          $(".jqVideo5_volume_ctrl").removeAttr("style");
+        }, 500);
+      }
 
       /**
        *  @description If available, load multi version of a same video element 
@@ -1333,6 +1353,7 @@
        */
       var play = function()
       {
+        params.video.focus();
         if (params.video[0].paused)
         {
           animateInnerPlayIcon('play', 'fadeOut');
